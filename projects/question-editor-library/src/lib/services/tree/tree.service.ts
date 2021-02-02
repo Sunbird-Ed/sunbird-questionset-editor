@@ -103,10 +103,14 @@ export class TreeService {
     this.setActiveNode();
   }
 
-  setActiveNode() {
+  setActiveNode(rootNode?) {
     const rootFirstChildNode = this.getFirstChild();
     const firstChild = rootFirstChildNode.getFirstChild(); // rootNode.getFirstChild() will always be available.
-    firstChild ? firstChild.setActive() : rootFirstChildNode.setActive(); // select the first children node by default
+    if (rootNode) {
+      rootFirstChildNode.setActive();
+    } else {
+      firstChild ? firstChild.setActive() : rootFirstChildNode.setActive(); // select the first children node by default
+    }
   }
 
   setNodeTitle(title) {

@@ -20,6 +20,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   public questionComponentInput: any = {};
   public libraryComponentInput: any = {};
   public showQuestionTemplatePopup = false;
+  public showDeleteContentPopup = false;
+  public showPublishCollectionPopup = false;
   public showConfirmPopup = false;
   public submitFormStatus = true;
   public terms = false;
@@ -112,7 +114,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.submitHandler();
         break;
       case 'removeContent':
-        this.removeNode();
+        this.showDeleteContentPopup = true;
         break;
       case 'editContent':
         this.redirectToQuestionTab('edit');
@@ -124,7 +126,7 @@ export class EditorComponent implements OnInit, OnDestroy {
         this.submitFormStatus = event.event.isValid;
         break;
       case 'publishCollection':
-        this.publishCollection();
+        this.showPublishCollectionPopup = true;
         break;
       case 'rejectCollection':
         this.rejectCollection();
@@ -160,6 +162,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   validateFormStatus() {
     if (!this.submitFormStatus) {
       this.toasterService.error('Please fill the required metadata');
+      this.treeService.setActiveNode(true);
       return false;
     }
     return true;
@@ -185,8 +188,8 @@ export class EditorComponent implements OnInit, OnDestroy {
       };
       return throwError(this.editorService.apiErrorHandling(error, errInfo));
     })).subscribe(res => {
-      this.showConfirmPopup = false;
       this.toasterService.success('Question set published successfully');
+      this.showPublishCollectionPopup = false;
       this.redirectToChapterListTab();
     });
   }
@@ -198,15 +201,15 @@ export class EditorComponent implements OnInit, OnDestroy {
       };
       return throwError(this.editorService.apiErrorHandling(error, errInfo));
     })).subscribe(res => {
-      this.showConfirmPopup = false;
       this.toasterService.success('Question set rejected successfully');
       this.redirectToChapterListTab();
     });
   }
 
 
-  removeNode() {
+  removeContent() {
     this.treeService.removeNode();
+    this.showDeleteContentPopup = false;
   }
 
   treeEventListener(event: any) {
