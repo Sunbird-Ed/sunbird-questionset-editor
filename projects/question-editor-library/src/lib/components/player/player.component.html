@@ -1,0 +1,63 @@
+<div class="sb-quml-player b-1-100 br-4" *ngIf="showPlayerPreview">
+    <quml-player [QumlPlayerConfig]="QumlPlayerConfig" (playerEvent)="getPlayerEvents($event)"
+        (telemetryEvent)="getTelemetryEvents($event)"></quml-player>
+</div>
+<div class="ui mt-20" *ngIf="(editorService.editorMode !== 'review')">
+    <div class="ui twelve column grid m-0">
+        <div class="eight wide column p-0 text-left">
+            <button type="button" class="sb-btn sb-btn-normal sb-btn-primary" (click)="editQuestion();"
+                libTelemetryInteract
+                [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('edit','click','launch', telemetryService.telemetryPageId)">
+                <i class="icon edit"></i>Edit</button>
+            <button type="button" class="sb-btn sb-btn-normal sb-btn-outline-primary mx-15"
+                (click)="removeQuestion()"><i class="icon trash sb-color-primary" libTelemetryInteract
+                    [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('delete','click','launch', telemetryService.telemetryPageId)"></i>Delete</button>
+        </div>
+        <div class="four wide column p-0 text-right">
+            <!-- <span>
+                <i class="tv icon sb-color-primary fs-1-143"></i>
+                <span class="fs-1-16 font-weight-normal sb-color-gray-100">|</span>
+                <i class="mobile alternate icon sb-color-primary fs-1-3 disabled"></i>
+            </span> -->
+        </div>
+    </div>
+</div>
+<hr class="my-20">
+<div class="ui grid text-font">
+    <div class="six wide column">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Name</label>
+            <div class="fs-0-92">{{questionMetaData?.name}}</div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Board</label>
+            <div class="fs-0-92">{{questionMetaData?.board}}</div>
+        </div>
+    </div>
+    <div class="two wide column">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Medium</label>
+            <div class="fs-0-92">{{questionMetaData?.medium}}</div>
+        </div>
+    </div>
+    <div class="six wide column">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Grade</label>
+            <div class="fs-0-92">{{questionMetaData?.gradeLevel}}</div>
+        </div>
+    </div>
+    <div class="four wide column">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Subject</label>
+            <div class="fs-0-92">{{questionMetaData?.subject}}</div>
+        </div>
+    </div>
+    <div class="two wide column" *ngIf="questionMetaData?.author">
+        <div class="sb-field-group">
+            <label class="sb-color-gray-100">Author</label>
+            <div class="fs-0-92">{{questionMetaData.author}}</div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,24 @@
+<div class="">
+  <div class="form-container" *ngIf="showEditMetaForm">
+    <sb-dynamic-form [config]="formFieldProperties" (initialize)="output($event)" (statusChanges)="onStatusChanges($event)" (valueChanges)="valueChanges($event)"></sb-dynamic-form>
+  </div>
+  <div class="sb-fixed-with-whitebg py-10" *ngIf="(editorService.editorMode !== 'review')">
+    <div class="ui">
+      <div class="ui twelve column grid m-0">
+        <div class="three wide column p-0"></div>
+        <div class="eight wide column p-0 text-right">
+          <button type="button" class="sb-btn sb-btn-normal sb-btn-primary" (click)="addQuestion()"
+          libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('create_new','click','launch', telemetryService.telemetryPageId)">
+            <i class="icon plus"></i> Create New
+          </button>
+          <button type="button" class="sb-btn sb-btn-normal sb-btn-outline-primary ml-15" (click)="addFromLibrary()"
+          libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('add_from_library','click','launch', telemetryService.telemetryPageId)">
+            <i class="icon plus"></i> Add from library
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
