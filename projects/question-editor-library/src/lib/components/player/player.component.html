@@ -26,35 +26,29 @@
 <div class="ui grid text-font">
     <div class="six wide column">
         <div class="sb-field-group">
-            <label class="sb-color-gray-100">Name</label>
-            <div class="fs-0-92">{{questionMetaData?.name}}</div>
-        </div>
-    </div>
-    <div class="four wide column">
-        <div class="sb-field-group">
             <label class="sb-color-gray-100">Board</label>
             <div class="fs-0-92">{{questionMetaData?.board}}</div>
         </div>
     </div>
-    <div class="two wide column">
+    <div class="four wide column">
         <div class="sb-field-group">
             <label class="sb-color-gray-100">Medium</label>
             <div class="fs-0-92">{{questionMetaData?.medium}}</div>
         </div>
     </div>
-    <div class="six wide column">
+    <div class="two wide column">
         <div class="sb-field-group">
             <label class="sb-color-gray-100">Grade</label>
             <div class="fs-0-92">{{questionMetaData?.gradeLevel}}</div>
         </div>
     </div>
-    <div class="four wide column">
+    <div class="six wide column">
         <div class="sb-field-group">
             <label class="sb-color-gray-100">Subject</label>
             <div class="fs-0-92">{{questionMetaData?.subject}}</div>
         </div>
     </div>
-    <div class="two wide column" *ngIf="questionMetaData?.author">
+    <div class="four wide column" *ngIf="questionMetaData?.author">
         <div class="sb-field-group">
             <label class="sb-color-gray-100">Author</label>
             <div class="fs-0-92">{{questionMetaData.author}}</div>
