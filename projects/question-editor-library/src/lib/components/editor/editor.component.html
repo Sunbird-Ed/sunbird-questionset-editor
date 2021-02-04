@@ -62,7 +62,7 @@
         </div>
       </div>
       <div class="sb-modal-actions">
-        <button type="button" class="sb-btn sb-btn-normal sb-btn-primary" [disabled]="!terms"
+        <button type="button" class="sb-btn sb-btn-normal" [ngClass]="!terms ? 'sb-btn-disabled' : 'sb-btn-primary'" [disabled]="!terms"
           (click)="submitCollection()" libTelemetryInteract
           [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('submit','click','submit', this.telemetryService.telemetryPageId,{key: 'dialog_id', value: 'accepting_terms_conditions','termAndConditions' : terms})">
           Submit
