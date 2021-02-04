@@ -18,8 +18,7 @@
         <i class="icon close"></i>
       </button>
       <lib-ckeditor-tool (editorDataOutput)="option.body = $event.body; option.length = $event.length; editorDataHandler($event)"
-        [editorConfig]="editorConfig" [editorDataInput]="option.body" [setCharacterLimit]="setCharacterLimit"
-        [setImageLimit]="setImageLimit" class="ckeditor-tool__option mb-24"
+        [editorDataInput]="option.body" class="ckeditor-tool__option mb-24"
         [class.mb-5]="showFormError && ([undefined, ''].includes(option.body) || option.length > setCharacterLimit)">
       </lib-ckeditor-tool>
       <label *ngIf="

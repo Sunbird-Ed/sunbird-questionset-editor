@@ -1,7 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
-import { questionEditorConfig } from '../../editor.config';
 import { McqForm, ServerResponse } from '../../interfaces';
 import { EditorService, QuestionService, PlayerService, EditorTelemetryService, ToasterService } from '../../services';
 import { throwError } from 'rxjs';
@@ -17,7 +16,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   @Input() questionInput: any;
   @Output() questionEmitter = new EventEmitter<any>();
   toolbarConfig: any;
-  public ckeditorConfig: any = questionEditorConfig;
   public editorState: any = {};
   public showPreview = false;
   public mediaArr: any = [];

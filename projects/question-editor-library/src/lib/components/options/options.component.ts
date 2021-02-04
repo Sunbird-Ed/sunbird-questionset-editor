@@ -7,10 +7,8 @@ import { EditorTelemetryService } from '../../services';
   styleUrls: ['./options.component.scss']
 })
 export class OptionsComponent implements OnInit {
-  @Input() editorConfig;
   @Input() editorState: any;
   @Input() showFormError;
-  @Input() questionMetaData;
   @Output() editorDataOutput: EventEmitter<any> = new EventEmitter<any>();
   public setCharacterLimit = 160;
   public setImageLimit = 1;

@@ -17,68 +17,6 @@ export const labelConfig = {
   save_question_btn_icon: ''
 };
 
-// TODO: rethink this
-export const editorConfig = {
-    editorConfig: {
-      rules: {
-        levels: 2,
-        objectTypes: [
-          {
-            type: 'QuestionSet',
-            label: 'QuestionSet',
-            isRoot: true,
-            editable: true,
-            childrenTypes: [
-              'QuestionSet', 'Question'
-            ],
-            addType: 'Editor',
-            iconClass: 'fa fa-book'
-          },
-          {
-            type: 'Question',
-            label: 'Question',
-            isRoot: false,
-            editable: false,
-            childrenTypes: [],
-            addType: 'Editor',
-            iconClass: 'fa fa-file-o'
-          },
-        ]
-      }
-    }
-};
-
-// TODO: rethink this
-export const questionEditorConfig = {
-    config: {
-      tenantName: '',
-      assetConfig: {
-        image: {
-          size: '50',
-          accepted: 'jpeg, png, jpg'
-        },
-        video: {
-          size: '50',
-          accepted: 'pdf, mp4, webm, youtube'
-        }
-      },
-      solutionType: [
-        'Video',
-        'Text & image'
-      ],
-      'No of options': 4,
-      questionCategory: [
-        'vsa',
-        'sa',
-        'ls',
-        'mcq',
-        'curiosity'
-      ],
-      resourceTitleLength: '200'
-    },
-    channel: 'sunbird'
-};
-
 export const formConfig = [
   {
       code: 'name',
@@ -162,60 +100,6 @@ export const formConfig = [
       placeholder: 'Select Additional Category',
       renderingHints: {class: 'sb-g-col-lg-1'},
       default: '',
-      range: [
-          {
-            value: 'Classroom Teaching Video',
-            label: 'Classroom Teaching Video'
-          },
-          {
-            value: 'Concept Map',
-            label: 'Concept Map'
-          },
-          {
-            value: 'Curiosity Question Set',
-            label: 'Curiosity Question Set'
-          },
-          {
-            value: 'Textbook',
-            label: 'Textbook'
-          },
-          {
-            value: 'Experiential Resource',
-            label: 'Experiential Resource'
-          },
-          {
-            value: 'Explanation Video',
-            label: 'Explanation Video'
-          },
-          {
-            value: 'Focus Spot',
-            label: 'Focus Spot'
-          },
-          {
-            value: 'Learning Outcome Definition',
-            label: 'Learning Outcome Definition'
-          },
-          {
-            value: 'Marking Scheme Rubric',
-            label: 'Marking Scheme Rubric'
-          },
-          {
-            value: 'Pedagogy Flow',
-            label: 'Pedagogy Flow'
-          },
-          {
-            value: 'Lesson Plan',
-            label: 'Lesson Plan'
-          },
-          {
-            value: 'Previous Board Exam Papers',
-            label: 'Previous Board Exam Papers'
-          },
-          {
-            value: 'TV Lesson',
-            label: 'TV Lesson'
-          }
-      ],
       required: false,
       visible: true,
       section: {
@@ -328,7 +212,7 @@ export const formConfig = [
       renderingHints: {class: 'sb-g-col-lg-1'},
       required: false,
       visible: true,
-      range: ['Student', 'Teacher', 'Administrator'],
+      range: ['Student', 'Teacher', 'Admin'],
   },
   {
       code: 'showFeedback',
@@ -373,7 +257,7 @@ export const formConfig = [
       renderingHints: {class: 'sb-g-col-lg-1'},
       required: false,
       visible: true,
-      range: [1, 2, 3]
+      range: [1, 2, 3, 4, 5, 6, 7, 8]
   },
   {
       code: 'author',

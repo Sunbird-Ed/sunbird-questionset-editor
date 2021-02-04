@@ -2,8 +2,7 @@ import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEm
 import 'jquery.fancytree';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
-import { editorConfig } from '../../editor.config';
-import { TreeService, EditorTelemetryService } from '../../services';
+import { TreeService, EditorTelemetryService, EditorService } from '../../services';
 declare var $: any;
 
 @Component({
@@ -16,10 +15,9 @@ export class TreeComponent implements OnInit, AfterViewInit {
   @Input() public nodes: any;
   @Input() public options: any;
   @Output() public treeEventEmitter: EventEmitter<any> = new EventEmitter();
-  config: any = editorConfig;
   public rootNode: any;
 
-  constructor(private treeService: TreeService, private telemetryService: EditorTelemetryService) { }
+  constructor(private treeService: TreeService, private telemetryService: EditorTelemetryService, private editorService: EditorService) { }
 
   ngOnInit() {
     this.initialize();
@@ -37,7 +35,7 @@ export class TreeComponent implements OnInit, AfterViewInit {
       folder: true,
       children: treeData,
       root: true,
-      icon: this.getObjectType(data.objectType).iconClass
+      icon: _.get(this.editorService.editorConfig, 'config.iconClass')
     }];
   }
 
@@ -45,7 +43,7 @@ export class TreeComponent implements OnInit, AfterViewInit {
     tree = tree || [];
     if (data.children) { data.children = _.sortBy(data.children, ['index']); }
     _.forEach(data.children, (child, index) => {
-      const objectType = this.getObjectType(child.objectType);
+      const objectType = this.getObjectType(child.objectType, child.primaryCategory);
       const childTree = [];
       if (objectType) {
         tree.push({
@@ -54,10 +52,10 @@ export class TreeComponent implements OnInit, AfterViewInit {
           tooltip: child.name,
           objectType: child.objectType,
           metadata: _.omit(child, ['children']),
-          folder: child.visibility === 'Default' ? false : (objectType.childrenTypes.length > 0),
+          folder: false,
           children: childTree,
           root: false,
-          icon: child.visibility === 'Default' ? 'fa fa-file-o' : objectType.iconClass
+          icon: 'fa fa-file-o'
         });
         if (child.visibility === 'Parent') {
           this.buildTree(child, childTree);
@@ -153,9 +151,9 @@ export class TreeComponent implements OnInit, AfterViewInit {
     // }
   }
 
-  getObjectType(type) {
-    return _.find(this.config.editorConfig.rules.objectTypes, (obj) => {
-      return obj.type === type;
+  getObjectType(objectType, primaryCategory) {
+    return _.find(_.get(this.editorService.editorConfig, `config.children.${objectType}`), (type) => {
+      return type  === primaryCategory;
     });
   }
 

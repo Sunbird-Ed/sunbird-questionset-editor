@@ -28,7 +28,7 @@ export class EditorService {
 
   public initialize(config: EditorConfig) {
     this._editorConfig = config;
-    this._editorMode = _.get(this._editorConfig, 'context.mode');
+    this._editorMode = _.get(this._editorConfig, 'config.mode');
   }
 
   set selectedChildren(value: SelectedChildren) {
@@ -64,7 +64,7 @@ export class EditorService {
   }
 
   getToolbarConfig() {
-    return _.cloneDeep(labelConfig);
+    return _.cloneDeep(_.merge(labelConfig, _.get(this.editorConfig, 'context.labels')));
   }
 
   public getQuestionSetHierarchy(identifier: string) {

@@ -23,6 +23,8 @@ export interface Context {
     defaultLicense: any;
     framework: string;
     aws_s3_urls: string[];
+    additionalCategories: any[];
+    labels: any;
 }
 export interface User {
     id: string;
@@ -56,6 +58,7 @@ export interface ObjectRollup {
 
 export interface EditorConfig {
     context: Context;
+    config: any;
     metadata?: any;
     data?: any;
 }

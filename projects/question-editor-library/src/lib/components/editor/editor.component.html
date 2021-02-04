@@ -13,12 +13,12 @@
               </lib-tree>
             </div>
             <div class="eight wide column bg-white pl-40">
-              <ng-container *ngIf="selectedQuestionData?.folder === true">
-                <lib-question-set [questionSetMetadata]="selectedQuestionData"
+              <ng-container *ngIf="selectedNodeData?.folder === true">
+                <lib-question-set [questionSetMetadata]="selectedNodeData"
                   (toolbarEmitter)="toolbarEventListener($event)"></lib-question-set>
               </ng-container>
-              <ng-container *ngIf="selectedQuestionData?.folder === false">
-                <lib-player [questionMetaData]="selectedQuestionData" [questionSetHierarchy]="collectionTreeNodes"
+              <ng-container *ngIf="selectedNodeData?.folder === false">
+                <lib-player [questionMetaData]="selectedNodeData" [questionSetHierarchy]="collectionTreeNodes"
                   (toolbarEmitter)="toolbarEventListener($event)">
                 </lib-player>
               </ng-container>
