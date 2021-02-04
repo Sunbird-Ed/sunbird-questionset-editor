@@ -17,7 +17,6 @@ interface SelectedChildren {
 export class EditorService {
   data: any;
   private _selectedChildren: SelectedChildren = {};
-  private _hierarchyConfig: any;
   public questionStream$ = new Subject<any>();
   private _editorMode = 'edit';
   private _editorConfig: EditorConfig;
@@ -45,14 +44,6 @@ export class EditorService {
 
   get selectedChildren() {
     return this._selectedChildren;
-  }
-
-  set hierarchyConfig(value: any) {
-    this._hierarchyConfig = value;
-  }
-
-  get hierarchyConfig() {
-    return this._hierarchyConfig;
   }
 
   get editorMode() {
