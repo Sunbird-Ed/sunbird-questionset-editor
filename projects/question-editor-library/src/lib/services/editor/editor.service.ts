@@ -17,7 +17,6 @@ interface SelectedChildren {
 export class EditorService {
   data: any;
   private _selectedChildren: SelectedChildren = {};
-  private _hierarchyConfig: any;
   public questionStream$ = new Subject<any>();
   private _editorMode = 'edit';
   private _editorConfig: EditorConfig;
@@ -28,7 +27,7 @@ export class EditorService {
 
   public initialize(config: EditorConfig) {
     this._editorConfig = config;
-    this._editorMode = _.get(this._editorConfig, 'context.mode');
+    this._editorMode = _.get(this._editorConfig, 'config.mode');
   }
 
   set selectedChildren(value: SelectedChildren) {
@@ -47,14 +46,6 @@ export class EditorService {
     return this._selectedChildren;
   }
 
-  set hierarchyConfig(value: any) {
-    this._hierarchyConfig = value;
-  }
-
-  get hierarchyConfig() {
-    return this._hierarchyConfig;
-  }
-
   get editorMode() {
     return this._editorMode;
   }
@@ -64,7 +55,7 @@ export class EditorService {
   }
 
   getToolbarConfig() {
-    return _.cloneDeep(labelConfig);
+    return _.cloneDeep(_.merge(labelConfig, _.get(this.editorConfig, 'context.labels')));
   }
 
   public getQuestionSetHierarchy(identifier: string) {

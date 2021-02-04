@@ -5,7 +5,6 @@ import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./answer.component.scss']
 })
 export class AnswerComponent implements OnInit {
-  @Input() editorConfig;
   @Input() editorState;
   @Input() showFormError;
   @Output() editorDataOutput: EventEmitter<any> = new EventEmitter<any>();

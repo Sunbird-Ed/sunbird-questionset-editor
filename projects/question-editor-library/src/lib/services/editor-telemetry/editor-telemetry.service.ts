@@ -1,7 +1,6 @@
 import { EventEmitter, Injectable } from '@angular/core';
 import { CsTelemetryModule } from '@project-sunbird/client-services/telemetry';
 import { EditorConfig, Context } from '../../question-editor-library-interface';
-import { UtilService } from '../index';
 import * as _ from 'lodash-es';
 @Injectable({
   providedIn: 'root'
@@ -12,8 +11,6 @@ export class EditorTelemetryService {
   telemetryEvent = new EventEmitter<any>();
   private context: Context;
   private telemetryObject: any;
-  private contentSessionId: string;
-  private playSessionId: string;
   private pdata: any;
   private sid: string;
   private uid: string;
@@ -22,14 +19,12 @@ export class EditorTelemetryService {
   // tslint:disable-next-line:variable-name
   private _telemetryPageId: any;
 
-  constructor( public utilService: UtilService ) {}
+  constructor() {}
 
   initializeTelemetry(config: EditorConfig) {
     this.duration = new Date().getTime();
     this.context = config.context;
     this.channel = config.context.channel;
-    this.contentSessionId = this.utilService.uniqueId();
-    this.playSessionId = this.utilService.uniqueId();
     this.channel = config.context.channel;
     this.pdata = this.context.pdata;
     this.sid =  this.context.sid;

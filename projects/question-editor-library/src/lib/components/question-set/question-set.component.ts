@@ -37,12 +37,8 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
     const categoryMasterList = this.frameworkDetails.frameworkData;
     _.forEach(categoryMasterList, (category) => {
       _.forEach(this.formFieldProperties, (formFieldCategory) => {
-        if (category.code === formFieldCategory.code && formFieldCategory.code !== 'topic') {
+        if (category.code === formFieldCategory.code) {
           formFieldCategory.terms = category.terms;
-        }
-
-        if (category.code === formFieldCategory.code && formFieldCategory.code === 'topic') {
-          formFieldCategory.range = category.terms;
         }
 
         if (formFieldCategory.code === 'license' && this.helperService.getAvailableLicenses()) {
@@ -51,13 +47,18 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
             formFieldCategory.range = _.map(licenses, 'name');
           }
         }
+
+        if (formFieldCategory.code === 'additionalCategories') {
+          const additionalCategories = _.get(this.editorService.editorConfig, 'context.additionalCategories');
+          if (!_.isEmpty(additionalCategories)) {
+            formFieldCategory.range = additionalCategories;
+          }
+        }
+
       });
     });
 
-    const questionSetObj = this.questionSetMetadata.data.metadata;
-    // tslint:disable-next-line:max-line-length
-    const metadata = (_.isUndefined(this.treeService.treeCache.nodesModified[questionSetObj.identifier])) ? questionSetObj : _.assign(questionSetObj, this.treeService.treeCache.nodesModified[questionSetObj.identifier].metadata);
-
+    const metadata = this.questionSetMetadata.data.metadata;
     _.forEach(this.formFieldProperties, field => {
       if (metadata && _.has(metadata, field.code)) {
         field.default = metadata[field.code];

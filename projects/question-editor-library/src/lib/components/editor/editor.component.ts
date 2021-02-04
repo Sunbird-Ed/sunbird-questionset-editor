@@ -16,7 +16,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   public toolbarConfig: any;
   public templateList: any;
   public collectionTreeNodes: any;
-  public selectedQuestionData: any = {};
+  public selectedNodeData: any = {};
   public questionComponentInput: any = {};
   public libraryComponentInput: any = {};
   public showQuestionTemplatePopup = false;
@@ -28,8 +28,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   public collectionId;
   public pageStartTime;
   public editorMode;
-  public rootObject = 'QuestionSet';
-  public childObject = 'Question';
   public pageId = 'question_set';
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
@@ -50,37 +48,15 @@ export class EditorComponent implements OnInit, OnDestroy {
     this.telemetryService.initializeTelemetry(this.editorConfig);
     this.telemetryService.telemetryPageId = this.pageId;
     this.helperService.initialize(_.get(this.editorConfig, 'context.defaultLicense'));
-    this.frameworkService.initialize(_.get(this.editorConfig, 'context.framework'));
     this.telemetryService.start({type: 'editor', pageid: this.telemetryService.telemetryPageId});
     this.initialize();
   }
 
   initialize() {
     this.fetchQuestionSetHierarchy().subscribe(res => {
-      if (_.isUndefined(this.editorService.hierarchyConfig)) {
-        // tslint:disable-next-line:max-line-length
-        this.editorService.getCategoryDefinition(res.primaryCategory, null, this.rootObject).pipe(catchError(error => {
-          const errInfo = {
-            errorMsg: 'Fetching question set details failed. Please try again...',
-          };
-          return throwError(this.editorService.apiErrorHandling(error, errInfo));
-        })).subscribe((categoryDefRes) => {
-          const objectMetadata = categoryDefRes.result.objectCategoryDefinition.objectMetadata;
-          if (!_.isEmpty(_.get(objectMetadata, 'config.hierarchyConfig'))) {
-            this.editorService.hierarchyConfig = objectMetadata.config.hierarchyConfig;
-          } else {
-            this.editorService.hierarchyConfig = {
-              maxDepth: 1,
-              children: {
-                  Question: ['Multiple Choice Question', 'Subjective Question']
-              }
-            };
-          }
-          this.templateList = this.editorService.hierarchyConfig.children[this.childObject];
-        });
-      } else {
-        this.templateList = this.editorService.hierarchyConfig.children[this.childObject];
-      }
+      const organisationFramework = _.get(this.editorConfig, 'context.framework') || _.get(res, 'framework');
+      this.frameworkService.initialize(organisationFramework);
+      this.templateList = _.get(this.editorConfig, 'config.children.Question');
     });
   }
 
@@ -147,7 +123,9 @@ export class EditorComponent implements OnInit, OnDestroy {
         };
         return throwError(this.editorService.apiErrorHandling(error, errInfo));
       }), map(data => _.get(data, 'result'))).subscribe(response => {
-        this.treeService.replaceNodeId(response.identifiers);
+        if (!_.isEmpty(response.identifiers)) {
+          this.treeService.replaceNodeId(response.identifiers);
+        }
         this.treeService.clearTreeCache();
         this.toasterService.success('Question set is updated successfully');
       });
@@ -215,8 +193,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   treeEventListener(event: any) {
     switch (event.type) {
       case 'nodeSelect':
-        this.selectedQuestionData = event.data;
-        console.log(this.selectedQuestionData);
+        this.selectedNodeData = event.data;
+        console.log(this.selectedNodeData);
         break;
       default:
         break;
@@ -230,7 +208,7 @@ export class EditorComponent implements OnInit, OnDestroy {
       return false;
     }
     // tslint:disable-next-line:max-line-length
-    this.editorService.getCategoryDefinition(selectedQuestionType, null, this.childObject).pipe(catchError(error => {
+    this.editorService.getCategoryDefinition(selectedQuestionType, null, 'Question').pipe(catchError(error => {
       const errInfo = {
         errorMsg: 'Fetch question set template failed. Please try again...',
       };
@@ -261,14 +239,14 @@ export class EditorComponent implements OnInit, OnDestroy {
   redirectToQuestionTab(mode, interactionType?) {
     this.questionComponentInput = {
       questionSetId: this.collectionId,
-      questionId: mode === 'edit' ? this.selectedQuestionData.data.metadata.identifier : undefined,
+      questionId: mode === 'edit' ? this.selectedNodeData.data.metadata.identifier : undefined,
       type: interactionType
     };
     this.pageId = 'question';
   }
 
   questionEventListener(event: any) {
-    this.selectedQuestionData = undefined;
+    this.selectedNodeData = undefined;
     this.fetchQuestionSetHierarchy().subscribe((res: any) => {
       this.pageId = 'question_set';
       this.telemetryService.telemetryPageId = this.pageId;

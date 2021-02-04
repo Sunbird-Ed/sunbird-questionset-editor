@@ -14,15 +14,14 @@ import MathText from '../../../../../../src/assets/libs/mathEquation/plugin/math
 export class CkeditorToolComponent implements OnInit, AfterViewInit, OnChanges {
   @ViewChild('editor', {static: false}) public editorRef: ElementRef;
   @ViewChild('fineUploaderUI', {static: false}) fineUploaderUI: ElementRef;
-  @Input() editorConfig: any;
   @Input() editorDataInput: any;
-  @Input() editorId: any;
-  @Input() setCharacterLimit: any;
-  @Input() setImageLimit: any;
   @Output() editorDataOutput = new EventEmitter<any>();
   @Output() hasError = new EventEmitter<any>();
   @Output() videoDataOutput = new EventEmitter<any>();
   @Input() videoShow;
+  @Input() setCharacterLimit: any;
+  @Input() setImageLimit: any;
+  public editorConfig: any;
   public imageUploadLoader = false;
   public editorInstance: any;
   public isEditorFocused: boolean;
@@ -66,7 +65,7 @@ export class CkeditorToolComponent implements OnInit, AfterViewInit, OnChanges {
 
   ngOnInit() {
     this.initialized = true;
-    this.editorConfig = _.assign({
+    this.editorConfig = {
       toolbar: ['bold', '|', 'italic', '|', 'underline',
         '|', 'numberedList', '|', 'fontSize', '|', 'subscript', '|', 'superscript', '|', 'MathText', '|'
       ],
@@ -112,9 +111,8 @@ export class CkeditorToolComponent implements OnInit, AfterViewInit, OnChanges {
       },
       isReadOnly: false,
       removePlugins: ['ImageCaption', 'mathtype', 'ChemType']
-    }, this.editorConfig);
+    };
 
-    this.assetConfig = this.editorConfig.config.assetConfig || this.assetConfig;
     this.acceptVideoType = this.getAcceptType(this.assetConfig.video.accepted, 'video');
     this.acceptImageType = this.getAcceptType(this.assetConfig.image.accepted, 'image');
   }

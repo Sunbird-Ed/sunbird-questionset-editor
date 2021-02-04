@@ -6,7 +6,6 @@ export const Config = {
       orgIds: ['01307938306521497658']
     },
     identifier: 'do_113193433773948928111',
-    mode: 'edit', // edit OR review
     authToken: ' ',
     sid: 'iYO2K6dOSdA0rwq7NeT1TDzS-dbqduvV',
     did: '7e85b4967aebd6704ba1f604f20056b6',
@@ -72,6 +71,78 @@ export const Config = {
     medium: ['English'],
     gradeLevel: ['Class 1'],
     subject: ['Environmental Studies'],
-    topic: ['Hello']
+    topic: ['Hello'],
+    additionalCategories: [
+      {
+        value: 'Classroom Teaching Video',
+        label: 'Classroom Teaching Video'
+      },
+      {
+        value: 'Concept Map',
+        label: 'Concept Map'
+      },
+      {
+        value: 'Curiosity Question Set',
+        label: 'Curiosity Question Set'
+      },
+      {
+        value: 'Textbook',
+        label: 'Textbook'
+      },
+      {
+        value: 'Experiential Resource',
+        label: 'Experiential Resource'
+      },
+      {
+        value: 'Explanation Video',
+        label: 'Explanation Video'
+      },
+      {
+        value: 'Focus Spot',
+        label: 'Focus Spot'
+      },
+      {
+        value: 'Learning Outcome Definition',
+        label: 'Learning Outcome Definition'
+      },
+      {
+        value: 'Marking Scheme Rubric',
+        label: 'Marking Scheme Rubric'
+      },
+      {
+        value: 'Pedagogy Flow',
+        label: 'Pedagogy Flow'
+      },
+      {
+        value: 'Lesson Plan',
+        label: 'Lesson Plan'
+      },
+      {
+        value: 'Previous Board Exam Papers',
+        label: 'Previous Board Exam Papers'
+      },
+      {
+        value: 'TV Lesson',
+        label: 'TV Lesson'
+      }
+    ],
+    labels: {
+      save_collection_btn_label: 'Save as Daft',
+    }
+  },
+  config: {
+    mode: 'edit', // edit OR review
+    maxDepth: 0,
+    objectType: 'QuestionSet',
+    primaryCategory: 'Practice Question Set',
+    isRoot: true,
+    iconClass: 'fa fa-book',
+    children: {
+      Question: [
+        'Multiple Choice Question',
+        'Subjective Question'
+      ]
+    },
+    hierarchy: {}
   }
 };

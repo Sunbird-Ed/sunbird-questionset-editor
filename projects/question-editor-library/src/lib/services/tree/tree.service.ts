@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core';
 import 'jquery.fancytree';
-import { UUID } from 'angular2-uuid';
 import * as _ from 'lodash-es';
-import { editorConfig } from '../../editor.config';
 import { ToasterService } from '../../services';
 declare var $: any;
 
@@ -10,7 +8,6 @@ declare var $: any;
   providedIn: 'root'
 })
 export class TreeService {
-  config: any = editorConfig;
   treeCache = {
     nodesModified: {},
     nodes: []
@@ -23,48 +20,50 @@ export class TreeService {
     this.treeNativeElement = el;
   }
 
-  addNode(objectType, data, createType) {
-    let newNode;
-    data = data || {};
-    const selectedNode = this.getActiveNode();
-    const node: any = {};
-    node.title = data.name ? (data.name) : 'Untitled ' + objectType.label;
-    node.tooltip = data.name;
-    node.objectType = data.contentType || objectType.type;
-    node.id = data.identifier ? data.identifier : UUID.UUID();
-    node.root = false;
-    node.folder = (data.visibility && data.visibility === 'Default') ? false : (objectType.childrenTypes.length > 0);
-    node.icon = (data.visibility && data.visibility === 'Default') ? 'fa fa-file-o' : objectType.iconClass;
-    node.metadata = data;
-    if (node.folder) {
-      // to check child node should not be created more than the set configlevel
-      if ((selectedNode.getLevel() >= this.config.editorConfig.rules.levels - 1) && createType === 'child') {
-        this.toasterService.error('Sorry, this operation is not allowed.');
-        return;
-      }
-      newNode = (createType === 'sibling') ? selectedNode.appendSibling(node) : selectedNode.addChildren(node);
-      // tslint:disable-next-line:max-line-length
-      this.treeCache.nodesModified[node.id] = { isNew: true, root: false, metadata: { mimeType: 'application/vnd.ekstep.content-collection' } };
-      this.treeCache.nodes.push(node.id);
-    } else {
-      newNode = (createType === 'sibling') ? selectedNode.appendSibling(node) : selectedNode.addChildren(node);
-    }
-    newNode.setActive();
-    // selectedNode.sortChildren(null, true);
-    selectedNode.setExpanded();
-    $('span.fancytree-title').attr('style', 'width:15em;text-overflow:ellipsis;white-space:nowrap;overflow:hidden');
-    $(this.treeNativeElement).scrollLeft($('.fancytree-lastsib').width());
-    $(this.treeNativeElement).scrollTop($('.fancytree-lastsib').height());
-  }
+  // addNode(objectType, data, createType) {
+  //   let newNode;
+  //   data = data || {};
+  //   const selectedNode = this.getActiveNode();
+  //   const node: any = {};
+  //   node.title = data.name ? (data.name) : 'Untitled ' + objectType.label;
+  //   node.tooltip = data.name;
+  //   node.objectType = data.contentType || objectType.type;
+  //   node.id = data.identifier ? data.identifier : UUID.UUID();
+  //   node.root = false;
+  //   node.folder = (data.visibility && data.visibility === 'Default') ? false : (objectType.childrenTypes.length > 0);
+  //   node.icon = (data.visibility && data.visibility === 'Default') ? 'fa fa-file-o' : objectType.iconClass;
+  //   node.metadata = data;
+  //   if (node.folder) {
+  //     // to check child node should not be created more than the set configlevel
+  //     if ((selectedNode.getLevel() >= this.config.editorConfig.rules.levels - 1) && createType === 'child') {
+  //       this.toasterService.error('Sorry, this operation is not allowed.');
+  //       return;
+  //     }
+  //     newNode = (createType === 'sibling') ? selectedNode.appendSibling(node) : selectedNode.addChildren(node);
+  // tslint:disable-next-line:max-line-length
+  //     this.treeCache.nodesModified[node.id] = { isNew: true, root: false, metadata: { mimeType: 'application/vnd.ekstep.content-collection' } };
+  //     this.treeCache.nodes.push(node.id);
+  //   } else {
+  //     newNode = (createType === 'sibling') ? selectedNode.appendSibling(node) : selectedNode.addChildren(node);
+  //   }
+  //   newNode.setActive();
+  //   // selectedNode.sortChildren(null, true);
+  //   selectedNode.setExpanded();
+  //   $('span.fancytree-title').attr('style', 'width:15em;text-overflow:ellipsis;white-space:nowrap;overflow:hidden');
+  //   $(this.treeNativeElement).scrollLeft($('.fancytree-lastsib').width());
+  //   $(this.treeNativeElement).scrollTop($('.fancytree-lastsib').height());
+  // }
 
   updateNode(metadata) {
     this.setNodeTitle(metadata.name);
+    this.updateTreeNodeMetadata(metadata);
     const activeNode = this.getActiveNode();
     const nodeId = activeNode.data.id;
     if (_.isUndefined(this.treeCache.nodesModified[nodeId])) {
       this.treeCache.nodesModified[nodeId] = { isNew: false, root: true };
     }
-    this.treeCache.nodesModified[nodeId].metadata = _.pickBy(metadata, _.identity);
+    // this.treeCache.nodesModified[nodeId].metadata = _.pickBy(metadata, _.identity);  // rethink this
+    this.treeCache.nodesModified[nodeId].metadata = metadata;
     const attributions = this.treeCache.nodesModified[nodeId].metadata.attributions;
     if (attributions && _.isString(attributions)) {
       this.treeCache.nodesModified[nodeId].metadata.attributions = attributions.split(',');
@@ -103,22 +102,26 @@ export class TreeService {
     this.setActiveNode();
   }
 
+  updateTreeNodeMetadata(newData) {
+    const activeNode = this.getActiveNode();
+    activeNode.data.metadata = {...activeNode.data.metadata, ...newData};
+    activeNode.title = newData.name;
+  }
+
   setActiveNode(rootNode?) {
     const rootFirstChildNode = this.getFirstChild();
-    const firstChild = rootFirstChildNode.getFirstChild(); // rootNode.getFirstChild() will always be available.
+    const firstChild = rootFirstChildNode.getFirstChild();
     if (rootNode) {
       rootFirstChildNode.setActive();
     } else {
-      firstChild ? firstChild.setActive() : rootFirstChildNode.setActive(); // select the first children node by default
+      firstChild ? firstChild.setActive() : rootFirstChildNode.setActive();
     }
   }
 
   setNodeTitle(title) {
     if (!title) { title = 'Untitled'; }
     title = this.removeSpecialChars(title);
-    this.getActiveNode().applyPatch({ title }).done((a, b) => {
-      // instance.onRenderNode(undefined, { node: ecEditor.jQuery('#collection-tree').fancytree('getTree').getActiveNode() }, true)
-    });
+    this.getActiveNode().applyPatch({ title }).done((a, b) => {});
     $('span.fancytree-title').attr('style', 'width:15em;text-overflow:ellipsis;white-space:nowrap;overflow:hidden');
   }
 
