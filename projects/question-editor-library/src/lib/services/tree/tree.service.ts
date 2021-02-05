@@ -64,6 +64,10 @@ export class TreeService {
     }
     // this.treeCache.nodesModified[nodeId].metadata = _.pickBy(metadata, _.identity);  // rethink this
     this.treeCache.nodesModified[nodeId].metadata = metadata;
+    const attributions = this.treeCache.nodesModified[nodeId].metadata.attributions;
+    if (attributions && _.isString(attributions)) {
+      this.treeCache.nodesModified[nodeId].metadata.attributions = attributions.split(',');
+    }
     this.treeCache.nodesModified[nodeId].metadata.code = nodeId;
   }
 
