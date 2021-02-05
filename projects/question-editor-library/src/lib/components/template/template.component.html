@@ -24,7 +24,7 @@
   </div>
   <div class="sb-modal-actions">
     <button type="button" class="sb-btn sb-btn-normal"
-      [ngClass]="{'sb-btn-primary': showButton, 'sb-btn-disabled': !showButton}" (click)="next()"
+      [ngClass]="{'sb-btn-primary': showButton, 'sb-btn-disabled': !showButton}" [disabled]="!showButton" (click)="next()"
       libTelemetryInteract
       [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('next','click','submit', this.telemetryService.telemetryPageId, {key: 'dialog_id', value: 'create_new','template_id' : templateSelected})"> Next </button>
   </div>
