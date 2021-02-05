@@ -25,6 +25,6 @@
     "v-sb-semantic-ui": "0.0.1-alpha.1"
   },
   "dependencies": {
-    "v-dynamic-forms": "0.0.1-beta.36"
+    "v-dynamic-forms": "0.0.1-beta.38"
   }
 }
