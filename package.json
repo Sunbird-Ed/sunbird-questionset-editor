@@ -8,7 +8,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-lib": " ng build question-editor-library && node assets-copy.js",
+    "build-lib": "ng build question-editor-library && node assets-copy.js",
+    "build-lib:prod": " ng build question-editor-library --prod=true && node assets-copy.js",
     "pre-publish": "gulp && npm run build-lib",
     "publish": "npm run pre-publish && npm publish ./dist/question-editor-library/"
   },
