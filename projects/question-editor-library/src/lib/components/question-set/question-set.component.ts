@@ -3,8 +3,6 @@ import * as _ from 'lodash-es';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
 import { TreeService, HelperService, EditorTelemetryService, EditorService, FrameworkService } from '../../services';
-import { formConfig } from '../../editor.config';
-
 @Component({
   selector: 'lib-question-set',
   templateUrl: './question-set.component.html',
@@ -12,8 +10,9 @@ import { formConfig } from '../../editor.config';
 })
 export class QuestionSetComponent implements OnInit, OnDestroy {
   @Input() questionSetMetadata: any;
+  // tslint:disable-next-line:no-input-rename
+  @Input('rootFormConfig') formFieldProperties: any;
   @Output() toolbarEmitter = new EventEmitter<any>();
-  formFieldProperties = formConfig;
   private onComponentDestroy$ = new Subject<any>();
   public framework;
   public frameworkDetails: any = {};

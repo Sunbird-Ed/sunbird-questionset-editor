@@ -74,7 +74,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   ngAfterViewInit() {
     this.telemetryService.impression({
       type: 'edit', pageid: this.telemetryService.telemetryPageId, uri: this.router.url,
-      duration: _.toString((Date.now() - this.pageStartTime) / 1000)
+      duration: (Date.now() - this.pageStartTime) / 1000
     });
   }
 

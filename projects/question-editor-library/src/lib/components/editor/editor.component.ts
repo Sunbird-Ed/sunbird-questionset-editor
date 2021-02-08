@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild } from '@angular/core';
 import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -13,6 +13,7 @@ import { EditorService, TreeService, EditorTelemetryService, HelperService, Fram
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() editorConfig: EditorConfig | undefined;
   @Output() editorEmitter = new EventEmitter<any>();
+  @ViewChild('modal', {static: false}) private modal;
   public toolbarConfig: any;
   public templateList: any;
   public collectionTreeNodes: any;
@@ -29,6 +30,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   public pageStartTime;
   public editorMode;
   public pageId = 'question_set';
+  public rootFormConfig: any;
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
               public telemetryService: EditorTelemetryService, private frameworkService: FrameworkService,
@@ -57,6 +59,15 @@ export class EditorComponent implements OnInit, OnDestroy {
       const organisationFramework = _.get(this.editorConfig, 'context.framework') || _.get(res, 'framework');
       this.frameworkService.initialize(organisationFramework);
       this.templateList = _.get(this.editorConfig, 'config.children.Question');
+      this.editorService.getCategoryDefinition(this.editorConfig.config.primaryCategory,
+        this.editorConfig.context.channel, this.editorConfig.config.objectType).pipe(catchError(error => {
+        const errInfo = {
+          errorMsg: 'Fetching question set config details failed. Please try again...',
+        };
+        return throwError(this.editorService.apiErrorHandling(error, errInfo));
+      })).subscribe((response) => {
+        this.rootFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.create.properties');
+      });
     });
   }
 
@@ -281,6 +292,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.generateTelemetryEndEvent();
+    if (this.modal && this.modal.deny) {
+      this.modal.deny();
+    }
+    this.treeService.clearTreeCache();
   }
 
 }

@@ -14,7 +14,7 @@
             </div>
             <div class="eight wide column bg-white pl-40">
               <ng-container *ngIf="selectedNodeData?.folder === true">
-                <lib-question-set [questionSetMetadata]="selectedNodeData"
+                <lib-question-set [questionSetMetadata]="selectedNodeData" [rootFormConfig]="rootFormConfig"
                   (toolbarEmitter)="toolbarEventListener($event)"></lib-question-set>
               </ng-container>
               <ng-container *ngIf="selectedNodeData?.folder === false">
@@ -32,9 +32,8 @@
       (templateSelection)="handleTemplateSelection($event)">
     </lib-template>
 
-    <sui-modal [mustScroll]="false" [isClosable]="true" [transitionDuration]="0" [size]="'normal'"
-      class="sb-modal overflow-modal" appBodyScroll *ngIf='showConfirmPopup'
-      (dismissed)="showConfirmPopup = !showConfirmPopup; terms = false;">
+    <sui-modal *ngIf='showConfirmPopup' [mustScroll]="false" [isClosable]="true" [transitionDuration]="0" [size]="'normal'"
+      class="sb-modal overflow-modal" appBodyScroll (dismissed)="showConfirmPopup = !showConfirmPopup; terms = false;" #modal>
       <div class="sb-modal-header">
         Accepting Terms & Conditions
       </div>
