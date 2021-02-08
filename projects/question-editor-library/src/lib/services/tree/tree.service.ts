@@ -62,8 +62,7 @@ export class TreeService {
     if (_.isUndefined(this.treeCache.nodesModified[nodeId])) {
       this.treeCache.nodesModified[nodeId] = { isNew: false, root: true };
     }
-    // this.treeCache.nodesModified[nodeId].metadata = _.pickBy(metadata, _.identity);  // rethink this
-    this.treeCache.nodesModified[nodeId].metadata = metadata;
+    this.treeCache.nodesModified[nodeId].metadata = _.pickBy(metadata, _.identity);  // rethink this
     const attributions = this.treeCache.nodesModified[nodeId].metadata.attributions;
     if (attributions && _.isString(attributions)) {
       this.treeCache.nodesModified[nodeId].metadata.attributions = attributions.split(',');
