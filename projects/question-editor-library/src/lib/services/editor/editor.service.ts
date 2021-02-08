@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import * as _ from 'lodash-es';
 import { map } from 'rxjs/operators';
-import { TreeService, DataService, ToasterService, EditorTelemetryService } from '../../services';
+import { TreeService, DataService, ToasterService, EditorTelemetryService, PublicDataService } from '../../services';
 import { labelConfig} from '../../editor.config';
 import { EditorConfig } from '../../question-editor-library-interface';
 interface SelectedChildren {
@@ -22,7 +22,8 @@ export class EditorService {
   private _editorConfig: EditorConfig;
 
 
-  constructor(public treeService: TreeService, private dataService: DataService, private toasterService: ToasterService,
+  constructor(public treeService: TreeService, private dataService: DataService,
+              private toasterService: ToasterService, public publicDataService: PublicDataService,
               private telemetryService: EditorTelemetryService) { }
 
   public initialize(config: EditorConfig) {
@@ -64,7 +65,7 @@ export class EditorService {
       url: `questionset/v1/hierarchy/${identifier}`,
       param: { mode: 'edit'}
     };
-    return this.dataService.get(req).pipe(map((res: any) => _.get(res, 'result.questionSet')));
+    return this.publicDataService.get(req).pipe(map((res: any) => _.get(res, 'result.questionSet')));
   }
 
   public updateQuestionSetHierarchy(): Observable<any> {
@@ -79,7 +80,7 @@ export class EditorService {
         }
       }
     };
-    return this.dataService.patch(req);
+    return this.publicDataService.patch(req);
   }
 
   public sendQuestionSetForReview(identifier: string): Observable<any> {
@@ -91,7 +92,7 @@ export class EditorService {
         }
     }
     };
-    return this.dataService.post(req);
+    return this.publicDataService.post(req);
   }
 
   public publishQuestionSet(identifier: string): Observable<any> {
@@ -103,7 +104,7 @@ export class EditorService {
         }
     }
     };
-    return this.dataService.post(req);
+    return this.publicDataService.post(req);
   }
 
   public rejectQuestionSet(identifier: string): Observable<any> {
@@ -115,7 +116,7 @@ export class EditorService {
         }
     }
     };
-    return this.dataService.post(req);
+    return this.publicDataService.post(req);
   }
 
   public getQuestionStream$() {

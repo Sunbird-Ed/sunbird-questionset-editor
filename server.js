@@ -30,14 +30,31 @@ app.all(['/api/framework/v1/read/*'], proxy('dev.sunbirded.org', {
     }
 }));
 
-app.use(['/api','/assets','/action'], proxy('dock.sunbirded.org', {
+app.use(['/action/questionset/v1/*', '/action/question/v1/*', ], proxy('dev.sunbirded.org', {
     https: true,
     proxyReqPathResolver: function(req) {
-        console.log('proxyReqPathResolver ',  urlHelper.parse(req.url).path);
+        let originalUrl = req.originalUrl.replace('/action/', '/api/')
+        console.log('proxyReqPathResolver questionset', originalUrl, require('url').parse(originalUrl).path);
+        return require('url').parse(originalUrl).path;
+    },
+    proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
+        console.log('proxyReqOptDecorator questionset')
+        // you can update headers
+        proxyReqOpts.headers['Content-Type'] = 'application/json';
+        proxyReqOpts.headers['user-id'] = 'content-editor';
+        proxyReqOpts.headers['authorization'] = 'Bearer ';
+        return proxyReqOpts;
+    }
+}));
+
+app.use(['/api','/assets','/action'], proxy('dev.sunbirded.org', {
+    https: true,
+    proxyReqPathResolver: function(req) {
+        console.log('proxyReqPathResolver api',  urlHelper.parse(req.url).path);
         return urlHelper.parse(req.url).path;
     },
     proxyReqOptDecorator: function(proxyReqOpts, srcReq) {
-        console.log('proxyReqOptDecorator')
+        console.log('proxyReqOptDecorator api')
         // you can update headers
         proxyReqOpts.headers['Content-Type'] = 'application/json';
         proxyReqOpts.headers['user-id'] = 'content-editor';
