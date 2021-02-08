@@ -1,1 +1,5 @@
-<lib-editor [editorConfig]="editorConfig" (editorEmitter)="editorEventListener($event)" ></lib-editor>
+<lib-editor *ngIf="showEditor" [editorConfig]="editorConfig" (editorEmitter)="editorEventListener($event)" ></lib-editor>
+<div *ngIf="!showEditor">
+    <h2>App component</h2>
+    <button (click)="showEditor = !showEditor" > GO TO QUESTION SET LIBRARY </button>
+</div>

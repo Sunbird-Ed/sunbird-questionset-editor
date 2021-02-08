@@ -154,15 +154,15 @@ export class EditorService {
     return instance.data;
   }
 
-  getCategoryDefinition(categoryName, rootOrgId, objectType?: any) {
+  getCategoryDefinition(categoryName, channel, objectType?: any) {
     const req = {
       url: 'object/category/definition/v1/read?fields=objectMetadata,forms,name',
       data: {
         request: {
           objectCategoryDefinition: {
               objectType: objectType ? objectType : 'Content',
-              name: categoryName
-              // 'channel': rootOrgId
+              name: categoryName,
+              ...(channel && { channel })
           },
         }
       }
