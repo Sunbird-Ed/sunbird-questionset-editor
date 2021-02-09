@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import * as _ from 'lodash-es';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
@@ -6,7 +6,8 @@ import { TreeService, HelperService, EditorTelemetryService, EditorService, Fram
 @Component({
   selector: 'lib-question-set',
   templateUrl: './question-set.component.html',
-  styleUrls: ['./question-set.component.scss']
+  styleUrls: ['./question-set.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuestionSetComponent implements OnInit, OnDestroy {
   @Input() questionSetMetadata: any;

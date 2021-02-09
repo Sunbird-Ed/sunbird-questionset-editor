@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild, ViewEncapsulation} from '@angular/core';
 import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -8,7 +8,8 @@ import { EditorService, TreeService, EditorTelemetryService, HelperService, Fram
 @Component({
   selector: 'lib-editor',
   templateUrl: './editor.component.html',
-  styleUrls: ['./editor.component.scss']
+  styleUrls: ['./editor.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class EditorComponent implements OnInit, OnDestroy {
   @Input() editorConfig: EditorConfig | undefined;

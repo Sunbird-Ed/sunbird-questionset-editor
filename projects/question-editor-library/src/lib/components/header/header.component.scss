@@ -7,3 +7,16 @@
 .selecttarget{
     border: 0.0625rem solid #999;
 } 
+.bx-none .ui.modal{
+    box-shadow:none !important;
+  }
+  
+  .overflow-modal {
+    .ui.modal{
+      box-shadow: none;
+    }
+    .sb-tabset-segment{
+      border: none;
+    }
+  }
+  
