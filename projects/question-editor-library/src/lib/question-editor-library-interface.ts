@@ -22,7 +22,7 @@ export interface Context {
     env: string;
     defaultLicense: any;
     framework: string;
-    aws_s3_urls: string[];
+    cloudStorageUrls: string[];
     additionalCategories: any[];
     labels: any;
 }

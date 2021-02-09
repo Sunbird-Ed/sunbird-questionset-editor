@@ -705,8 +705,8 @@ export class CkeditorToolComponent implements OnInit, AfterViewInit, OnChanges {
 
   getMediaOriginURL(src) {
     const replaceText = this.assetProxyUrl;
-    const awsS3Urls = _.get(this.editorService.editorConfig, 'context.aws_s3_urls') || [];
-    _.forEach(awsS3Urls, url => {
+    const cloudStorageUrls = _.get(this.editorService.editorConfig, 'context.cloudStorageUrls') || [];
+    _.forEach(cloudStorageUrls, url => {
       if (src.indexOf(url) !== -1) {
         src = src.replace(url, replaceText);
       }
