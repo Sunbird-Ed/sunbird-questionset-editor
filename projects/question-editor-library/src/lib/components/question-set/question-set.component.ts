@@ -54,6 +54,13 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
           }
         }
 
+        if (formFieldCategory.code === 'maxQuestions') {
+          const rootFirstChildNode = this.treeService.getFirstChild();
+          if (rootFirstChildNode && rootFirstChildNode.children) {
+            formFieldCategory.range = _.times(_.size(rootFirstChildNode.children), index => index + 1);
+          }
+        }
+
       });
     });
 
