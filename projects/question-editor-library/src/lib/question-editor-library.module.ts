@@ -9,9 +9,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { QuestionEditorLibraryComponent } from './question-editor-library.component';
 import { EditorComponent, QuestionComponent, HeaderComponent, TreeComponent,
   AnswerComponent, OptionsComponent, QuestionSetComponent, PlayerComponent,
-  TemplateComponent, CkeditorToolComponent, LibraryComponent, LibraryPlayerComponent,
-  LibraryListComponent, LibraryFilterComponent
-  } from './components';
+  TemplateComponent, CkeditorToolComponent} from './components';
 import { QumlLibraryModule } from '@project-sunbird/sunbird-quml-player';
 import {CarouselModule} from 'ngx-bootstrap/carousel';
 import { TelemetryInteractDirective } from './directives';
@@ -19,11 +17,7 @@ import { TelemetryInteractDirective } from './directives';
 @NgModule({
   declarations: [QuestionEditorLibraryComponent, EditorComponent, QuestionComponent, HeaderComponent,
   TreeComponent, AnswerComponent, OptionsComponent, QuestionSetComponent, PlayerComponent, TemplateComponent, CkeditorToolComponent,
-  TelemetryInteractDirective,
-  LibraryComponent,
-  LibraryPlayerComponent,
-  LibraryListComponent,
-  LibraryFilterComponent],
+  TelemetryInteractDirective],
   imports: [
     CommonModule,
     FormsModule,

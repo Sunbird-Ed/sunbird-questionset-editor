@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm, ServerResponse } from '../../interfaces';
@@ -9,7 +9,8 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'lib-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss']
+  styleUrls: ['./question.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuestionComponent implements OnInit, AfterViewInit {
   QumlPlayerConfig: any = {};
