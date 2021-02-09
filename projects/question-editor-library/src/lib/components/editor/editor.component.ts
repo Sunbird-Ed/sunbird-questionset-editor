@@ -20,7 +20,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   public collectionTreeNodes: any;
   public selectedNodeData: any = {};
   public questionComponentInput: any = {};
-  public libraryComponentInput: any = {};
   public showQuestionTemplatePopup = false;
   public showDeleteContentPopup = false;
   public showPublishCollectionPopup = false;
@@ -121,9 +120,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         break;
       case 'rejectCollection':
         this.rejectCollection();
-        break;
-      case 'addFromLibrary':
-        this.showLibraryComponentPage();
         break;
       default:
         break;
@@ -278,18 +274,6 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.pageId = 'question_set';
       this.telemetryService.telemetryPageId = this.pageId;
     });
-  }
-
-  showLibraryComponentPage() {
-    this.libraryComponentInput = {
-      questionSetId: this.collectionId
-    };
-    this.pageId = 'library';
-  }
-
-  libraryEventListener(event: any) {
-    this.pageId = 'question_set';
-    this.telemetryService.telemetryPageId = this.pageId;
   }
 
   generateTelemetryEndEvent() {
