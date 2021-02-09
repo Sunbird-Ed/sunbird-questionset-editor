@@ -89,7 +89,7 @@ export class EditorComponent implements OnInit, OnDestroy {
     }));
   }
 
-  toolbarEventListener(event) {
+  toolbarEventListener(event: any) {
     switch (event.button.type) {
       case 'backContent':
         this.redirectToChapterListTab();
@@ -109,8 +109,11 @@ export class EditorComponent implements OnInit, OnDestroy {
       case 'showQuestionTemplate':
         this.showQuestionTemplatePopup = true;
         break;
-      case 'onFormChange':
+      case 'onFormStatusChange':
         this.submitFormStatus = event.event.isValid;
+        break;
+      case 'onFormValueChange':
+        this.updateToolbarTitle(event);
         break;
       case 'publishCollection':
         this.showPublishCollectionPopup = true;
@@ -123,6 +126,14 @@ export class EditorComponent implements OnInit, OnDestroy {
         break;
       default:
         break;
+    }
+  }
+
+  updateToolbarTitle(data: any) {
+    if (!_.isEmpty(data.event.name)) {
+      this.toolbarConfig.title = data.event.name;
+    } else {
+      this.toolbarConfig.title = 'Untitled';
     }
   }
 
@@ -198,6 +209,10 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   removeContent() {
     this.treeService.removeNode();
+    const rootFirstChildNode = this.treeService.getFirstChild();
+    if (rootFirstChildNode && !rootFirstChildNode.children) {
+      this.toolbarConfig.showSubmitBtn = false;
+    }
     this.showDeleteContentPopup = false;
   }
 

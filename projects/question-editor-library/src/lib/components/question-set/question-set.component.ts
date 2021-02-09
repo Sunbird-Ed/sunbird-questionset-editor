@@ -115,10 +115,11 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   onStatusChanges(event) {
     console.log('onStatusChanges::', event);
-    this.toolbarEmitter.emit({ button: { type: 'onFormChange' }, event });
+    this.toolbarEmitter.emit({ button: { type: 'onFormStatusChange' }, event });
   }
 
   valueChanges(event) {
+    this.toolbarEmitter.emit({ button: { type: 'onFormValueChange' }, event });
     this.treeService.updateNode(event);
   }
 

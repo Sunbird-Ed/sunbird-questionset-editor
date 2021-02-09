@@ -22,7 +22,7 @@ export class QuestionService {
         fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media'
       }
     };
-    return this.dataService.get(option);
+    return this.publicDataService.get(option);
   }
 
   updateHierarchyQuestionCreate(questionSetId, metadata, questionSetHierarchy): Observable<ServerResponse> {
@@ -54,7 +54,7 @@ export class QuestionService {
         request: requestObj
       }
     };
-    return this.dataService.patch(req);
+    return this.publicDataService.patch(req);
   }
 
   updateHierarchyQuestionUpdate(questionSetId, questionId, metadata, questionSetHierarchy): Observable<ServerResponse> {
@@ -82,7 +82,7 @@ export class QuestionService {
         request: requestObj
       }
     };
-    return this.dataService.patch(req);
+    return this.publicDataService.patch(req);
   }
 
   getAssetMedia(req?: object) {
