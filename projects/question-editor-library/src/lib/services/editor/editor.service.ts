@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import * as _ from 'lodash-es';
 import { map } from 'rxjs/operators';
-import { TreeService, DataService, ToasterService, EditorTelemetryService, PublicDataService } from '../../services';
+import { TreeService, ToasterService, EditorTelemetryService, PublicDataService } from '../../services';
 import { labelConfig} from '../../editor.config';
 import { EditorConfig } from '../../question-editor-library-interface';
 interface SelectedChildren {
@@ -22,8 +22,7 @@ export class EditorService {
   private _editorConfig: EditorConfig;
 
 
-  constructor(public treeService: TreeService, private dataService: DataService,
-              private toasterService: ToasterService, public publicDataService: PublicDataService,
+  constructor(public treeService: TreeService, private toasterService: ToasterService, public publicDataService: PublicDataService,
               private telemetryService: EditorTelemetryService) { }
 
   public initialize(config: EditorConfig) {
@@ -168,7 +167,7 @@ export class EditorService {
         }
       }
     };
-    return this.dataService.post(req);
+    return this.publicDataService.post(req);
   }
 
   apiErrorHandling(err, errorInfo) {

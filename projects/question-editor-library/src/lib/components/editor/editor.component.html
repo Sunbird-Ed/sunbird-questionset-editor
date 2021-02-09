@@ -13,7 +13,7 @@
               </lib-tree>
             </div>
             <div class="eight wide column bg-white pl-40">
-              <ng-container *ngIf="selectedNodeData?.folder === true">
+              <ng-container *ngIf="selectedNodeData?.folder === true && rootFormConfig">
                 <lib-question-set [questionSetMetadata]="selectedNodeData" [rootFormConfig]="rootFormConfig"
                   (toolbarEmitter)="toolbarEventListener($event)"></lib-question-set>
               </ng-container>
