@@ -1,11 +1,11 @@
 {
-    "/api/framework/v1/read/*": {
+    "/action/questionset/v1": {
         "target": "http://localhost:3000",
         "secure": false,
         "logLevel": "debug",
         "changeOrigin": true
     },
-    "/action/questionset/v1": {
+    "/action/object/category/definition/v1/": {
         "target": "http://localhost:3000",
         "secure": false,
         "logLevel": "debug",
