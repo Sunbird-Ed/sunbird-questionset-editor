@@ -11,7 +11,7 @@
     "build-lib": "ng build question-editor-library && node assets-copy.js",
     "build-lib:prod": " ng build question-editor-library --prod=true && node assets-copy.js",
     "pre-publish": "gulp && npm run build-lib",
-    "publish": "npm run pre-publish && npm publish ./dist/question-editor-library/"
+    "publish": "npm run build-lib:prod && npm publish ./dist/question-editor-library/"
   },
   "private": true,
   "dependencies": {
@@ -49,12 +49,13 @@
     "lodash-es": "^4.17.20",
     "mathjax-full": "^3.1.2",
     "ngx-bootstrap": "^5.6.2",
+    "ngx-chips": "^2.2.2",
     "ngx-infinite-scroll": "^6.0.0",
     "rxjs": "~6.6.3",
     "svg2img": "^0.6.1",
     "tslib": "^1.9.0",
+    "v-dynamic-forms": "0.0.4",
     "v-sb-semantic-ui": "0.0.1-alpha.1",
-    "v-dynamic-forms": "0.0.1-beta.38",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
