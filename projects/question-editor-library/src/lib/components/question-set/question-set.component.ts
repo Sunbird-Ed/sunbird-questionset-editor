@@ -103,7 +103,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (this.editorService.editorMode === 'review') {
+      if (this.editorService.editorMode === 'review' || this.editorService.editorMode === 'read') {
           _.set(field, 'editable', false);
       }
     });

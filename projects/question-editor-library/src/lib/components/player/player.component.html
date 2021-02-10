@@ -2,7 +2,7 @@
     <quml-player [QumlPlayerConfig]="QumlPlayerConfig" (playerEvent)="getPlayerEvents($event)"
         (telemetryEvent)="getTelemetryEvents($event)"></quml-player>
 </div>
-<div class="ui mt-20" *ngIf="(editorService.editorMode !== 'review')">
+<div class="ui mt-20" *ngIf="(editorService.editorMode === 'edit')">
     <div class="ui twelve column grid m-0">
         <div class="eight wide column p-0 text-left">
             <button type="button" class="sb-btn sb-btn-normal sb-btn-primary" (click)="editQuestion();"

@@ -131,7 +131,7 @@ export const Config = {
     }
   },
   config: {
-    mode: 'edit', // edit OR review
+    mode: 'edit', // edit / review / read
     maxDepth: 0,
     objectType: 'QuestionSet',
     primaryCategory: 'Practice Question Set',
