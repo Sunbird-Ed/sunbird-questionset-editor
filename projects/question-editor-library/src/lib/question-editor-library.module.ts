@@ -2,8 +2,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { CommonFormElementsModule } from 'v-dynamic-forms';
-import { SuiModule } from 'v-sb-semantic-ui';
+import { CommonFormElementsModule } from 'common-form-elements';
 import { InfiniteScrollModule } from 'ngx-infinite-scroll';
 import { HttpClientModule } from '@angular/common/http';
 import { EditorComponent } from './components/editor/editor.component';
@@ -19,11 +18,14 @@ import { CkeditorToolComponent } from './components/ckeditor-tool/ckeditor-tool.
 import { QumlLibraryModule } from '@project-sunbird/sunbird-quml-player';
 import {CarouselModule} from 'ngx-bootstrap/carousel';
 import { TelemetryInteractDirective } from './directives/telemetry-interact/telemetry-interact.directive';
+import { SuiModule } from 'ng2-semantic-ui/dist';
+
 
 @NgModule({
   declarations: [EditorComponent, QuestionComponent, HeaderComponent,
-  TreeComponent, AnswerComponent, OptionsComponent, QuestionSetComponent, PlayerComponent, TemplateComponent, CkeditorToolComponent,
-  TelemetryInteractDirective],
+    TreeComponent, AnswerComponent, OptionsComponent, QuestionSetComponent, PlayerComponent,
+    TemplateComponent, CkeditorToolComponent,
+    TelemetryInteractDirective],
   imports: [
     CommonModule,
     FormsModule,
@@ -32,9 +34,9 @@ import { TelemetryInteractDirective } from './directives/telemetry-interact/tele
     CommonFormElementsModule,
     InfiniteScrollModule,
     HttpClientModule,
-    SuiModule,
     QumlLibraryModule,
-    CarouselModule.forRoot()
+    CarouselModule.forRoot(),
+    SuiModule
   ],
   exports: [EditorComponent]
 })
