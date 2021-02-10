@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core';
 import { Observable, of, Subject } from 'rxjs';
 import * as _ from 'lodash-es';
 import { map } from 'rxjs/operators';
-import { TreeService, ToasterService, EditorTelemetryService, PublicDataService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { ToasterService} from '../../services/toaster/toaster.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { PublicDataService } from '../../services/public-data/public-data.service';
 import { labelConfig} from '../../editor.config';
 import { EditorConfig } from '../../question-editor-library-interface';
 interface SelectedChildren {

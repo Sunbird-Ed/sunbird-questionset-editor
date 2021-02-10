@@ -2,7 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsul
 import * as _ from 'lodash-es';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { TreeService, HelperService, EditorTelemetryService, EditorService, FrameworkService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { HelperService } from '../../services/helper/helper.service';
+import { FrameworkService } from '../../services/framework/framework.service';
 @Component({
   selector: 'lib-question-set',
   templateUrl: './question-set.component.html',

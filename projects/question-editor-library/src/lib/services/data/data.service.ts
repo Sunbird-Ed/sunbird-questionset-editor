@@ -1,7 +1,9 @@
 
 import { of as observableOf, throwError as observableThrowError, Observable } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
-import { ServerResponse, RequestParam, HttpOptions } from '../../interfaces';
+import { ServerResponse } from '../../interfaces/serverResponse';
+import { RequestParam } from '../../interfaces/requestParam';
+import { HttpOptions } from '../../interfaces/httpOptions';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { UUID } from 'angular2-uuid';

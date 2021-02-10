@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
 import { catchError, map, tap} from 'rxjs/operators';
 import * as _ from 'lodash-es';
-import { PublicDataService } from '../index';
+import { PublicDataService } from '../../services/public-data/public-data.service';
 
 @Injectable({
   providedIn: 'root'

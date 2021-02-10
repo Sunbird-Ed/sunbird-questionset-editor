@@ -3,7 +3,12 @@ import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import * as _ from 'lodash-es';
-import { EditorService, TreeService, EditorTelemetryService, HelperService, FrameworkService, ToasterService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { ToasterService } from '../../services/toaster/toaster.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { HelperService } from '../../services/helper/helper.service';
+import { FrameworkService } from '../../services/framework/framework.service';
 
 @Component({
   selector: 'lib-editor',

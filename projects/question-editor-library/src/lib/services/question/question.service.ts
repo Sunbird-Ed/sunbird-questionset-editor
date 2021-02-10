@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { DataService, PublicDataService } from '../../services';
-import { ServerResponse } from '../../interfaces';
+import { DataService } from '../../services/data/data.service';
+import { PublicDataService } from '../../services/public-data/public-data.service';
+import { ServerResponse } from '../../interfaces/serverResponse';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { HttpClient } from '@angular/common/http';

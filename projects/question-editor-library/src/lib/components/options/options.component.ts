@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash-es';
-import { EditorTelemetryService } from '../../services';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 @Component({
   selector: 'lib-options',
   templateUrl: './options.component.html',

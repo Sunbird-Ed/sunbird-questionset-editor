@@ -3,7 +3,7 @@ import { ServerResponse, Framework, FrameworkData } from '../../interfaces';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { skipWhile } from 'rxjs/operators';
 import * as _ from 'lodash-es';
-import { DataService } from '../../services';
+import { DataService } from '../../services/data/data.service';
 
 @Injectable({
   providedIn: 'root'

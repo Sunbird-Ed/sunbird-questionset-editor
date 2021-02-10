@@ -2,7 +2,9 @@ import { Component, AfterViewInit, Input, ViewChild, ElementRef, Output, EventEm
 import 'jquery.fancytree';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
-import { TreeService, EditorTelemetryService, EditorService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { EditorService } from '../../services/editor/editor.service';
 declare var $: any;
 
 @Component({
