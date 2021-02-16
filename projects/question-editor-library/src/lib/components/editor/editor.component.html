@@ -3,16 +3,16 @@
     <div class="add-to-library">
       <lib-header [toolbarConfig]="toolbarConfig" [pageId]="pageId" (toolbarEmitter)="toolbarEventListener($event)">
       </lib-header>
-      <div class="min-h-500 sb-bg-white">
+      <div class="min-h-500 h-100vh">
         <div class="ui">
-          <div class="ui twelve column grid m-0">
+          <div class="ui twelve column grid m-0 sb-bg-white">
             <div class="three wide column p-0 h-100vh">
               <lib-tree *ngIf="collectionTreeNodes" (treeEventEmitter)="treeEventListener($event)"
                 [nodes]="collectionTreeNodes" [options]="{ showConnectors: true }"
                 class="sb-collectionTree-fancyTree sb-collectionTree-fancyTreelist">
               </lib-tree>
             </div>
-            <div class="eight wide column bg-white pl-40">
+            <div class="eight wide column bg-white pl-40 w-73">
               <ng-container *ngIf="selectedNodeData?.folder === true && rootFormConfig">
                 <lib-question-set [questionSetMetadata]="selectedNodeData" [rootFormConfig]="rootFormConfig"
                   (toolbarEmitter)="toolbarEventListener($event)"></lib-question-set>
