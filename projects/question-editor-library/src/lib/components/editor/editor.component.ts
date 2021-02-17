@@ -3,7 +3,12 @@ import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
 import * as _ from 'lodash-es';
-import { EditorService, TreeService, EditorTelemetryService, HelperService, FrameworkService, ToasterService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { ToasterService } from '../../services/toaster/toaster.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { HelperService } from '../../services/helper/helper.service';
+import { FrameworkService } from '../../services/framework/framework.service';
 
 @Component({
   selector: 'lib-editor',
@@ -20,7 +25,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   public collectionTreeNodes: any;
   public selectedNodeData: any = {};
   public questionComponentInput: any = {};
-  public libraryComponentInput: any = {};
   public showQuestionTemplatePopup = false;
   public showDeleteContentPopup = false;
   public showPublishCollectionPopup = false;
@@ -121,9 +125,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         break;
       case 'rejectCollection':
         this.rejectCollection();
-        break;
-      case 'addFromLibrary':
-        this.showLibraryComponentPage();
         break;
       default:
         break;
@@ -278,18 +279,6 @@ export class EditorComponent implements OnInit, OnDestroy {
       this.pageId = 'question_set';
       this.telemetryService.telemetryPageId = this.pageId;
     });
-  }
-
-  showLibraryComponentPage() {
-    this.libraryComponentInput = {
-      questionSetId: this.collectionId
-    };
-    this.pageId = 'library';
-  }
-
-  libraryEventListener(event: any) {
-    this.pageId = 'question_set';
-    this.telemetryService.telemetryPageId = this.pageId;
   }
 
   generateTelemetryEndEvent() {

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import * as _ from 'lodash-es';
-import { EditorService } from '../../services';
+import { EditorService } from '../../services/editor/editor.service';
 
 @Injectable({
   providedIn: 'root'

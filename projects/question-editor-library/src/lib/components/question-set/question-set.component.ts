@@ -2,7 +2,11 @@ import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsul
 import * as _ from 'lodash-es';
 import { Subject } from 'rxjs';
 import { filter, take, takeUntil } from 'rxjs/operators';
-import { TreeService, HelperService, EditorTelemetryService, EditorService, FrameworkService } from '../../services';
+import { TreeService } from '../../services/tree/tree.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { HelperService } from '../../services/helper/helper.service';
+import { FrameworkService } from '../../services/framework/framework.service';
 @Component({
   selector: 'lib-question-set',
   templateUrl: './question-set.component.html',
@@ -55,6 +59,13 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
           }
         }
 
+        if (formFieldCategory.code === 'maxQuestions') {
+          const rootFirstChildNode = this.treeService.getFirstChild();
+          if (rootFirstChildNode && rootFirstChildNode.children) {
+            formFieldCategory.range = _.times(_.size(rootFirstChildNode.children), index => index + 1);
+          }
+        }
+
       });
     });
 
@@ -92,7 +103,7 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
         });
       }
 
-      if (this.editorService.editorMode === 'review') {
+      if (this.editorService.editorMode === 'review' || this.editorService.editorMode === 'read') {
           _.set(field, 'editable', false);
       }
     });
@@ -106,10 +117,6 @@ export class QuestionSetComponent implements OnInit, OnDestroy {
 
   addQuestion() {
     this.toolbarEmitter.emit({ button: { type: 'showQuestionTemplate' } });
-  }
-
-  addFromLibrary() {
-    this.toolbarEmitter.emit({ button: { type: 'addFromLibrary' } });
   }
 
   output(event) {}

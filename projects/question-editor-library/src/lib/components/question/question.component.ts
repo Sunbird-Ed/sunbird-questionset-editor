@@ -1,15 +1,21 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
-import { McqForm, ServerResponse } from '../../interfaces';
-import { EditorService, QuestionService, PlayerService, EditorTelemetryService, ToasterService } from '../../services';
+import { McqForm } from '../../interfaces/McqForm';
+import { ServerResponse } from '../../interfaces/serverResponse';
+import { QuestionService } from '../../services/question/question.service';
+import { PlayerService } from '../../services/player/player.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
   selector: 'lib-question',
   templateUrl: './question.component.html',
-  styleUrls: ['./question.component.scss']
+  styleUrls: ['./question.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class QuestionComponent implements OnInit, AfterViewInit {
   QumlPlayerConfig: any = {};

@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewEncapsulation} from '@angular/core';
-import { EditorTelemetryService, EditorService } from '../../services';
+import { EditorService } from '../../services/editor/editor.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 @Component({
   selector: 'lib-header',
   templateUrl: './header.component.html',

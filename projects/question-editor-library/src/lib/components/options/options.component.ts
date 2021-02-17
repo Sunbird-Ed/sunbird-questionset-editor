@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import * as _ from 'lodash-es';
-import { EditorTelemetryService } from '../../services';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 @Component({
   selector: 'lib-options',
   templateUrl: './options.component.html',
-  styleUrls: ['./options.component.scss']
+  styleUrls: ['./options.component.scss'],
+  encapsulation: ViewEncapsulation.None,
 })
 export class OptionsComponent implements OnInit {
   @Input() editorState: any;

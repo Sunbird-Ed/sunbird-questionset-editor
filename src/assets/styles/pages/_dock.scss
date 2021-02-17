@@ -782,60 +782,10 @@ $progressCircle: xs calculateRem(16px) 4px 10px, sm calculateRem(24px) 6px 10px,
   }
 }
 
-.hover-none {
-  &:hover {
-    background: none !important;
-  }
-}
-
-.sb-checkbox-tnc {
-  .sb-required {
-    position: absolute;
-    padding-left: 0;
-    left: 18px;
-  }
-}
-
-
-// For grid column start add class
-// .sb-g-col-lg-2 for 2
-// .sb-g-col-lg-2 for 3
-// FOR SB FORMS
-
-
-.h-7 {
-  height: 7px;
-}
-
 .h-12 {
   height: 12px;
 }
-
-.w-20 {
-  width: 20px;
-}
-
 .w-85{
   width: 85%;
   max-width: 85%;
-}
-
-.b-0 {
-  border: 0 !important;
-}
-
-.sb-line-height-24 {
-  line-height: 24px;
-}
-
-.bg-none {
-  background-color: transparent !important;
-
-  &:hover,
-  &:focus {
-    background-color: transparent !important;
-  }
-}
-sui-accordion{
-  box-shadow: none !important;
 }

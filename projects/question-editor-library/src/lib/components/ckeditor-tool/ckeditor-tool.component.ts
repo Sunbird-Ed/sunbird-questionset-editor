@@ -4,7 +4,9 @@ import { FineUploader } from 'fine-uploader';
 import * as _ from 'lodash-es';
 import { catchError, map } from 'rxjs/operators';
 import { throwError, Observable } from 'rxjs';
-import { QuestionService, EditorService, ToasterService } from '../../services';
+import { QuestionService } from '../../services/question/question.service';
+import { EditorService } from '../../services/editor/editor.service';
+import { ToasterService } from '../../services/toaster/toaster.service';
 import MathText from '../../../../../../src/assets/libs/mathEquation/plugin/mathTextPlugin.js';
 @Component({
   selector: 'lib-ckeditor-tool',

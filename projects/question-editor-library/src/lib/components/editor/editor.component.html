@@ -1,6 +1,6 @@
 <ng-container [ngSwitch]="pageId">
   <ng-container *ngSwitchCase="'question_set'">
-    <div class="add-to-library">
+    <div class="sb-editor-container">
       <lib-header [toolbarConfig]="toolbarConfig" [pageId]="pageId" (toolbarEmitter)="toolbarEventListener($event)">
       </lib-header>
       <div class="min-h-500 h-100vh">
@@ -111,10 +111,5 @@
   <ng-container *ngSwitchCase="'question'">
     <lib-question [questionInput]="questionComponentInput" (questionEmitter)="questionEventListener($event)">
     </lib-question>
-  </ng-container>
-
-  <ng-container *ngSwitchCase="'library'">
-    <lib-library [libraryInput]="libraryComponentInput" (libraryEmitter)="libraryEventListener($event)">
-    </lib-library>
-  </ng-container>
+  </ng-container> 
 </ng-container>

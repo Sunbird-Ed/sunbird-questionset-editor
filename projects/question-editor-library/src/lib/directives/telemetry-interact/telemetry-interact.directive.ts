@@ -1,5 +1,5 @@
 import { Directive, Input, HostListener } from '@angular/core';
-import { EditorTelemetryService } from '../../services';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 import * as _ from 'lodash-es';
 
 

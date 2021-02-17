@@ -11,7 +11,7 @@
     "build-lib": "ng build question-editor-library && node assets-copy.js",
     "build-lib:prod": " ng build question-editor-library --prod=true && node assets-copy.js",
     "pre-publish": "gulp && npm run build-lib",
-    "publish": "npm run pre-publish && npm publish ./dist/question-editor-library/"
+    "publish": "npm run build-lib:prod && npm publish ./dist/question-editor-library/"
   },
   "private": true,
   "dependencies": {
@@ -31,11 +31,13 @@
     "@ckeditor/ckeditor5-ui": "^11.2.0",
     "@project-sunbird/ckeditor-build-font": "^1.0.8",
     "@project-sunbird/sb-styles": "0.0.7",
+    "@project-sunbird/sunbird-question-editor": "0.0.1",
     "@project-sunbird/sunbird-quml-player": "0.0.6",
     "@project-sunbird/telemetry-sdk": "0.0.26",
     "angular2-uuid": "^1.1.1",
     "bootstrap": "4.1.1",
     "ckeditor-build-font": "^1.0.5",
+    "common-form-elements": "^2.0.6",
     "core-js": "^2.5.4",
     "express": "^4.17.1",
     "express-http-proxy": "^1.6.2",
@@ -48,13 +50,13 @@
     "katex": "^0.12.0",
     "lodash-es": "^4.17.20",
     "mathjax-full": "^3.1.2",
+    "ng2-semantic-ui": "github:venkateshwarans/ng2-semantic-ui#sourcing-circle",
     "ngx-bootstrap": "^5.6.2",
+    "ngx-chips": "^2.0.2",
     "ngx-infinite-scroll": "^6.0.0",
     "rxjs": "~6.6.3",
     "svg2img": "^0.6.1",
     "tslib": "^1.9.0",
-    "v-sb-semantic-ui": "0.0.1-alpha.1",
-    "v-dynamic-forms": "0.0.1-beta.38",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {

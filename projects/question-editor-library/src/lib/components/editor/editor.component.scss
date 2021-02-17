@@ -55,7 +55,7 @@
           li {
             .fancytree-custom-icon {
               &::before {
-                content: url("../../assets/images/writing.png");
+                content: url("assets/images/writing.png");
                 margin-top: 5px;
                 float: left;
                 margin-left: 11px;
@@ -94,7 +94,7 @@
   
         .fancytree-custom-icon {
           &::before {
-            content: url("../../assets/images/question_collection.svg");
+            content: url("assets/images/question_collection.svg");
             margin-left: 5px;
           }
         }
@@ -136,3 +136,12 @@
   .ui.column.grid>[class*="eight wide"].column{
     width: 73% !important;
   }
+
+  .sb-checkbox-tnc {
+    .sb-required {
+      position: absolute;
+      padding-left: 0;
+      left: 18px;
+    }
+  }
+  

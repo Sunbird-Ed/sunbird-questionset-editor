@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import 'jquery.fancytree';
 import * as _ from 'lodash-es';
-import { ToasterService } from '../../services';
+import { ToasterService } from '../../services/toaster/toaster.service';
 declare var $: any;
 
 @Injectable({

@@ -1,7 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core';
 import * as _ from 'lodash-es';
 import { ServerResponse } from '../../interfaces';
-import { QuestionService, EditorTelemetryService, EditorService, PlayerService } from '../../services';
+import { QuestionService } from '../../services/question/question.service';
+import { PlayerService } from '../../services/player/player.service';
+import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
+import { EditorService } from '../../services/editor/editor.service';
 @Component({
   selector: 'lib-player',
   templateUrl: './player.component.html',
