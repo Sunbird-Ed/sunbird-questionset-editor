@@ -20,9 +20,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
     
 ###### Step 3 : Run node `server.js` for proxy the api's 
 
-  go to server.js file add `authorization` token as shown below
+  ```
+go to server.js file add `authorization` token as shown below
 
-  proxyReqOpts.headers['authorization'] = 'Bearer XXXX'
+proxyReqOpts.headers['authorization'] = 'Bearer XXXX'  
+  
+  ```
 
 
 ### How to use NPM Sunbird-Questionset-Editor library in your Project 
