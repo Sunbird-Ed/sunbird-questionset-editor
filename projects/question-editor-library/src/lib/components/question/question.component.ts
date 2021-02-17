@@ -369,6 +369,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     if (_.isEmpty(this.editorState.solutions)) {
       metadata.solutions = [];
     }
+    metadata = _.merge(metadata, this.getDefaultFrameworkValues());
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
 
@@ -396,8 +397,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   }
 
   createQuestion() {
-    let metadata = this.prepareRequestBody();
-    metadata = _.merge(metadata, this.getDefaultFrameworkValues());
+    const metadata = this.prepareRequestBody();
     this.questionService.updateHierarchyQuestionCreate(this.questionSetId, metadata, this.questionSetHierarchy).
       subscribe((response: ServerResponse) => {
           if (response.result) {
