@@ -4,3 +4,31 @@
     position: relative;
     overflow: hidden;
 }
+.quml-container{
+    overflow-y: auto;
+    height: 30rem;
+}
+.quml-option-card{
+    figure{
+        img{
+            max-width: 100% !important;
+        }
+    }
+    .option-border{
+        width: 50rem;
+    }
+    .checkmark{
+        &:after{
+            position: relative !important;
+        }
+    }
+}
+quml-mcq-solutions{
+    .solution-options{
+        figure{
+            img{
+                max-width: 100%;
+            }
+        }
+    }
+}
