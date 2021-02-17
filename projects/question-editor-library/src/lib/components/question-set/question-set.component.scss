@@ -101,7 +101,7 @@
     right: 0;
     bottom: 0;
     background-color: #fff;
-    z-index: 1;
+    z-index: 155;
   }
   .one-column-grid {
     display: grid;
@@ -128,4 +128,30 @@
     grid-template-rows: 1fr 1fr;
     column-gap: 0.5rem;
   }
-  
+  .dynamic-form{
+    .sb-search-input::-webkit-input-placeholder {
+      padding-left: 1.4rem !important;
+    }
+    .required{
+      label{
+        &:after{
+          content: "*";
+          margin: -.2em 0 0 .2em;
+          color: #db2828;
+        }
+      }
+    }
+  }
+  .list-border{
+    height: 2.8rem !important;
+    ul{
+        padding: 0 !important;
+        span{
+          font-weight: 500 !important;
+          font-size: 0.785rem;
+        }
+    }
+}
+.lib-chat-head{
+  bottom: 4rem !important;
+}

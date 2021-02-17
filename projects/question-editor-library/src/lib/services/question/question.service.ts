@@ -88,7 +88,7 @@ export class QuestionService {
 
   getAssetMedia(req?: object) {
     const reqParam = {
-      url: 'composite/v1/search',
+      url: 'composite/v3/search',
       data: {
         request: {
           filters: {
@@ -104,7 +104,7 @@ export class QuestionService {
       }
     };
     reqParam.data.request = req ? _.merge({}, reqParam.data.request, req) : reqParam;
-    return this.dataService.post(reqParam);
+    return this.publicDataService.post(reqParam);
   }
 
   createMediaAsset(req?: object) {
