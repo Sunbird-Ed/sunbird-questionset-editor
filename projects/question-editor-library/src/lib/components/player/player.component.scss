@@ -4,6 +4,7 @@
     position: relative;
     overflow: hidden;
 }
+<<<<<<< HEAD
 
 .carousel {
     position: relative;
@@ -213,3 +214,33 @@
     color: #fff;
     text-align: center;
   }
+=======
+.quml-container{
+    overflow-y: auto;
+    height: 30rem;
+}
+.quml-option-card{
+    figure{
+        img{
+            max-width: 100% !important;
+        }
+    }
+    .option-border{
+        width: 50rem;
+    }
+    .checkmark{
+        &:after{
+            position: relative !important;
+        }
+    }
+}
+quml-mcq-solutions{
+    .solution-options{
+        figure{
+            img{
+                max-width: 100%;
+            }
+        }
+    }
+}
+>>>>>>> 3283338cad6a53eb61e0950618295833da316337

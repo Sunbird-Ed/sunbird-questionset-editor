@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, ViewEncapsulation} from '@angular/core';
 import * as _ from 'lodash-es';
 import { ServerResponse } from '../../interfaces';
 import { QuestionService } from '../../services/question/question.service';
@@ -9,7 +9,7 @@ import { EditorService } from '../../services/editor/editor.service';
   selector: 'lib-player',
   templateUrl: './player.component.html',
   styleUrls: ['./player.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+  encapsulation: ViewEncapsulation.None
 })
 export class PlayerComponent implements OnInit, OnChanges {
   QumlPlayerConfig: any;
