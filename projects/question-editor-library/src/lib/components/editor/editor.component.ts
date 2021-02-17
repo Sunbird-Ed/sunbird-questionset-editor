@@ -163,7 +163,7 @@ export class EditorComponent implements OnInit, OnDestroy {
 
   validateFormStatus() {
     if (!this.submitFormStatus) {
-      this.toasterService.error('Please fill the required metadata');
+      this.toasterService.error('Please provide all the required details');
       this.treeService.setActiveNode(true);
       return false;
     }
