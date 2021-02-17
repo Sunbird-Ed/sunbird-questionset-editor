@@ -32,6 +32,7 @@
               }
             ],
             "styles": [
+              "src/assets/quml-styles/quml-carousel.css",
               "./node_modules/@project-sunbird/sb-styles/assets/_styles.scss",
               "src/styles.scss",
               "src/assets/lib/semantic/semantic.min.css",
