@@ -147,4 +147,10 @@
   .sb-editor-container {
     position: relative;
     z-index: 999 !important;
+    .sb-required {
+      color:#ff4558;
+      padding-left: 2px;
+      position: relative;
+      top: -5px;
+  }
   }
