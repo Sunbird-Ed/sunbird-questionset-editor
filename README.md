@@ -21,8 +21,12 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ###### Step 3 : Run node `server.js` for proxy the api's 
 
   ```
-go to server.js file add `authorization` token as shown below
+go to server.js file 
 
+Update the host variable to which env your pointing. example if you are pointing sunbird dev instance update veriable like below
+const host = 'dev.sunbirded.org'
+
+add `authorization` token as shown below
 proxyReqOpts.headers['authorization'] = 'Bearer XXXX'  
   
   ```
