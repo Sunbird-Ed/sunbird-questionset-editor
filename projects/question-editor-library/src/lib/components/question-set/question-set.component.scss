@@ -1,4 +1,6 @@
 .sb-editor-container {
+  position: relative;
+  z-index: 999 !important;
     .dynamic-form {
       label {
         font-size: 12px !important;
