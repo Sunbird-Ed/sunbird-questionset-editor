@@ -144,4 +144,7 @@
       left: 18px;
     }
   }
-  
+  .sb-editor-container {
+    position: relative;
+    z-index: 999 !important;
+  }
