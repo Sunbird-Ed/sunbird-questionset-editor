@@ -3,6 +3,7 @@ var express = require('express'),
 bodyParser = require('body-parser'),
     proxy = require('express-http-proxy'),
     urlHelper = require('url');
+const host = ''; // ex: dev.sunbirded.org
 const latexService = require('./latexService.js')
 var app = express();
 app.set('port', 3000);
@@ -16,7 +17,7 @@ app.use([
     '/action/questionset/v1/*', 
     '/action/question/v1/*', 
     '/action/object/category/definition/v1/*',
-    ], proxy('dev.sunbirded.org', {
+    ], proxy(host, {
     https: true,
     proxyReqPathResolver: function (req) {
         let originalUrl = req.originalUrl.replace('/action/', '/api/')
@@ -33,7 +34,7 @@ app.use([
     }
 }));
 
-app.use(['/api', '/assets', '/action'], proxy('dev.sunbirded.org', {
+app.use(['/api', '/assets', '/action'], proxy(host , {
     https: true,
     proxyReqPathResolver: function (req) {
         console.log('proxyReqPathResolver api', urlHelper.parse(req.url).path);
