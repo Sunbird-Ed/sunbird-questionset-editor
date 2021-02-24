@@ -32,14 +32,11 @@ export class PlayerComponent implements OnInit, OnChanges {
       this.initialize();
     }
   }
-
   changePotraitMode() {
     this.showPotrait = true;
-    console.log("ekta");
   }
   changeLandscapeMode() {
     this.showPotrait = false;
-    console.log("ekta");
   }
   initialize() {
     this.questionId = _.get(this.questionMetaData, 'identifier');
