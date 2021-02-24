@@ -32,10 +32,10 @@ export class PlayerComponent implements OnInit, OnChanges {
       this.initialize();
     }
   }
-  changePotraitMode() {
+  switchToPotraitMode() {
     this.showPotrait = true;
   }
-  changeLandscapeMode() {
+  switchToLandscapeMode() {
     this.showPotrait = false;
   }
   initialize() {
