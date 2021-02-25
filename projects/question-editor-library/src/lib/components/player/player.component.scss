@@ -35,9 +35,11 @@ quml-mcq-solutions{
 }
 .potrait-mode{
     margin: auto;
-    max-width: 40%;
+    max-width: 576px;
 }
 .btn-none{
     background: none !important;
     border: none !important;
+    padding: 0 !important;
+    cursor: pointer;
 }
