@@ -180,8 +180,8 @@ export const mockData = {
         ]
     },
     formData: {
-     description: "description",
-    keywords: ["keyword"],
-    name: ""
+        description: "description",
+        keywords: ["keyword"],
+        name: ""
     }
 };

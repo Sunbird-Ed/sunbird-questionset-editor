@@ -77,7 +77,6 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
     this.initialize();
-    // if i not the child form metadata i should call api
   }
 
   ngAfterViewInit() {

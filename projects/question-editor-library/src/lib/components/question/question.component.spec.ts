@@ -34,7 +34,7 @@ describe('QuestionComponent', () => {
     // fixture.detectChanges();
   });
 
-  it('should call ', () => {
+  it('should create', () => {
     expect(component).toBeTruthy();
   });
   it('should call populateFormData ', () => {
