@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnDestroy } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm } from '../../interfaces/McqForm';
@@ -8,7 +8,7 @@ import { PlayerService } from '../../services/player/player.service';
 import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
-import { throwError } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Component({
@@ -17,12 +17,13 @@ import { Router } from '@angular/router';
   styleUrls: ['./question.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionComponent implements OnInit, AfterViewInit {
+export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   @Input() leafFormConfig: any;
   public childFormData: any;
   @Output() questionEmitter = new EventEmitter<any>();
+  private onComponentDestroy$ = new Subject<any>();
   toolbarConfig: any;
   public editorState: any = {};
   public showPreview = false;
@@ -518,6 +519,10 @@ export class QuestionComponent implements OnInit, AfterViewInit {
         formFieldCategory.default = this.questionMetaData[formFieldCategory.code];
       }
     });
+  }
+  ngOnDestroy() {
+    this.onComponentDestroy$.next();
+    this.onComponentDestroy$.complete();
   }
 }
 
