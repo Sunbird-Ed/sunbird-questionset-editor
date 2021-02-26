@@ -19,8 +19,8 @@ export class QuestionService {
     const option = {
       url: `question/v1/read/${questionId}`,
       param: {
-        // tslint:disable-next-line:max-line-length
-        fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media'
+        // tslint:disable-next-line:max-line-length need to check here for form values
+        fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media,keywords,description'
       }
     };
     return this.publicDataService.get(option);

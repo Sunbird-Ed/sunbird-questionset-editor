@@ -10,6 +10,7 @@ import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { TreeService } from '../../services/tree/tree.service';
 
 @Component({
   selector: 'lib-question',
@@ -20,6 +21,8 @@ import { Router } from '@angular/router';
 export class QuestionComponent implements OnInit, AfterViewInit {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
+  @Input() leafFormConfig: any;
+  public childFormData: any;
   @Output() questionEmitter = new EventEmitter<any>();
   toolbarConfig: any;
   public editorState: any = {};
@@ -59,7 +62,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
 
   constructor(
     private questionService: QuestionService, private editorService: EditorService, public telemetryService: EditorTelemetryService,
-    public playerService: PlayerService, private toasterService: ToasterService, private router: Router ) {
+    public playerService: PlayerService, private toasterService: ToasterService, private router: Router, public treeService: TreeService ) {
       const { primaryCategory } = this.editorService.selectedChildren;
       this.questionPrimaryCategory = primaryCategory;
       this.pageStartTime = Date.now();
@@ -75,6 +78,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
     this.initialize();
+    // if i not the child form metadata i should call api
   }
 
   ngAfterViewInit() {
@@ -92,6 +96,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
             .subscribe((res) => {
               if (res.result) {
                 this.questionMetaData = res.result.question;
+                console.log(this.questionMetaData, 'questionMetaData');
+                this.populateFormData();
                 if (_.isUndefined(this.questionPrimaryCategory)) {
                   this.questionPrimaryCategory = this.questionMetaData.primaryCategory;
                 }
@@ -179,8 +185,10 @@ export class QuestionComponent implements OnInit, AfterViewInit {
         break;
       case 'previewContent':
         this.previewContent();
+        this.previewFormData(false);
         break;
         case 'editContent':
+          this.previewFormData(true);
           this.showPreview = false;
           this.toolbarConfig.showPreview = false;
           this.showLoader = false;
@@ -370,6 +378,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
+    metadata = _.merge(metadata, this.childFormData);
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
 
@@ -476,7 +485,28 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     }
     this.toolbarConfig.title = questionTitle;
   }
+  output(event) {}
 
+  onStatusChanges(event) {
+  }
+
+  valueChanges(event) {
+    this.childFormData = event;
+  }
+  previewFormData(status) {
+    const formvalue = _.cloneDeep(this.leafFormConfig);
+    this.leafFormConfig = null;
+    _.forEach(formvalue, (formFieldCategory) => {
+      formFieldCategory.editable = status;
+    });
+    this.leafFormConfig = formvalue;
+  }
+  populateFormData() {
+    _.forEach(this.leafFormConfig, (formFieldCategory) => {
+      if (this.questionMetaData && _.has(this.questionMetaData, formFieldCategory.code)) {
+        formFieldCategory.default = this.questionMetaData[formFieldCategory.code];
+      }
+    });
+  }
 }
-
 
