@@ -180,7 +180,10 @@
           "options": {
             "main": "projects/question-editor-library/src/test.ts",
             "tsConfig": "projects/question-editor-library/tsconfig.spec.json",
-            "karmaConfig": "projects/question-editor-library/karma.conf.js"
+            "karmaConfig": "projects/question-editor-library/karma.conf.js",
+            "scripts": [
+              "src/assets/libs/iziToast/iziToast.min.js"
+            ]
           }
         },
         "lint": {

@@ -10,7 +10,6 @@ import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { TreeService } from '../../services/tree/tree.service';
 
 @Component({
   selector: 'lib-question',
@@ -62,7 +61,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
 
   constructor(
     private questionService: QuestionService, private editorService: EditorService, public telemetryService: EditorTelemetryService,
-    public playerService: PlayerService, private toasterService: ToasterService, private router: Router, public treeService: TreeService ) {
+    public playerService: PlayerService, private toasterService: ToasterService, private router: Router ) {
       const { primaryCategory } = this.editorService.selectedChildren;
       this.questionPrimaryCategory = primaryCategory;
       this.pageStartTime = Date.now();
@@ -91,12 +90,12 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
         this.questionSetHierarchy = response;
+        const formConfigfields = _.join(_.map(this.leafFormConfig, value => (value.code)), ',');
         if (!_.isUndefined(this.questionId)) {
-          this.questionService.readQuestion(this.questionId)
+          this.questionService.readQuestion(this.questionId, formConfigfields)
             .subscribe((res) => {
               if (res.result) {
                 this.questionMetaData = res.result.question;
-                console.log(this.questionMetaData, 'questionMetaData');
                 this.populateFormData();
                 if (_.isUndefined(this.questionPrimaryCategory)) {
                   this.questionPrimaryCategory = this.questionMetaData.primaryCategory;
@@ -206,8 +205,9 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveContent() {
+  async saveContent() {
     this.validateQuestionData();
+    await this.validateFormFields();
     if (this.showFormError === false) {
       this.saveQuestion();
     }
@@ -493,11 +493,23 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   valueChanges(event) {
     this.childFormData = event;
   }
+  validateFormFields() {
+    _.forEach(this.leafFormConfig, (formFieldCategory) => {
+      if (formFieldCategory.required && !this.childFormData[formFieldCategory.code]) {
+          this.showFormError = true;
+          this.toasterService.error('Please fill the required fields');
+          return false;
+      }
+    });
+    return true;
+  }
   previewFormData(status) {
     const formvalue = _.cloneDeep(this.leafFormConfig);
     this.leafFormConfig = null;
     _.forEach(formvalue, (formFieldCategory) => {
+      if (_.has(formFieldCategory, 'editable')) {
       formFieldCategory.editable = status;
+      }
     });
     this.leafFormConfig = formvalue;
   }

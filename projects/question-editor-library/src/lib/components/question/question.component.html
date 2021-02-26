@@ -99,15 +99,14 @@
               </div>
             </div>
           </div>
+          <hr>
+          <div class="form-container   px-30" *ngIf="leafFormConfig" >
+            <sb-dynamic-form [config]="leafFormConfig" (initialize)="output($event)" (statusChanges)="onStatusChanges($event)" (valueChanges)="valueChanges($event)" ></sb-dynamic-form>
+          </div>
         </div>
       </div>
     </div>
   </div>
-  <div class="ui container">
-  <div class="form-container" *ngIf="leafFormConfig" >
-    <sb-dynamic-form [config]="leafFormConfig" (initialize)="output($event)" (statusChanges)="onStatusChanges($event)" (valueChanges)="valueChanges($event)" ></sb-dynamic-form>
-  </div>
-</div>
 </div>
 
 <sui-modal *ngIf="showConfirmPopup" [mustScroll]="true" [isClosable]="true" [transitionDuration]="0" [size]="'small'"

@@ -15,12 +15,12 @@ export class QuestionService {
     this.http = http;
   }
 
-  readQuestion(questionId) {
+  readQuestion(questionId, formfields? ) {
     const option = {
       url: `question/v1/read/${questionId}`,
       param: {
-        // tslint:disable-next-line:max-line-length need to check here for form values
-        fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media,keywords,description'
+        // tslint:disable-next-line:max-line-length
+        fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media,' + formfields
       }
     };
     return this.publicDataService.get(option);

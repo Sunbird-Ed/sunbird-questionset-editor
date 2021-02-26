@@ -85,11 +85,6 @@ sui-select {
       min-width: auto;
       padding: 0;
       color: #999999;
-      .icon.close{
-        &:before{
-          content: url("assets/images/cancel-sign.png");
-        }
-      }
     }
   }
 }
@@ -102,11 +97,6 @@ sui-select {
     min-width: auto;
     padding: 0;
     color: #999999;
-    .icon.close{
-      &:before{
-        content: url("assets/images/cancel-sign.png");
-      }
-    }
   }
 }
 .sb-mcq-form{
@@ -155,7 +145,40 @@ quml-mcq-solutions{
       }
   }
 }
-
+.two-column-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  column-gap: 0.5rem;
+  border-bottom: solid 1px var(--gray-100);
+  &:last-child{
+    border-bottom: none;
+  }
+}
+.dynamic-form{
+  .sb-search-input::-webkit-input-placeholder {
+    padding-left: 1.4rem !important;
+  }
+  .required{
+    label{
+      &:after{
+        content: "*";
+        margin: -.2em 0 0 .2em;
+        color: #db2828;
+      }
+    }
+  }
+}
+.list-border{
+  height: 2.8rem !important;
+  ul{
+      padding: 0 !important;
+      span{
+        font-weight: 500 !important;
+        font-size: 0.785rem;
+      }
+  }
+}
 .sb-editor-container {
   position: relative;
   z-index: 999 !important;
@@ -253,65 +276,3 @@ quml-mcq-solutions{
       margin: 1rem 0 !important;
     }
   }
-  .sb-fixed-with-whitebg {
-    position: fixed;
-    width: 100%;
-    border-top: 1px solid #ddd;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: #fff;
-    z-index: 155;
-  }
-  .one-column-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr);
-    grid-template-rows: 1fr 1fr;
-    column-gap: 0.5rem;
-  }
-  
-  .two-column-grid {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: 1fr 1fr;
-    column-gap: 0.5rem;
-    border-bottom: solid 1px var(--gray-100);
-    &:last-child{
-      border-bottom: none;
-    }
-  }
-  
-  
-  .three-column-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    grid-template-rows: 1fr 1fr;
-    column-gap: 0.5rem;
-  }
-  .dynamic-form{
-    .sb-search-input::-webkit-input-placeholder {
-      padding-left: 1.4rem !important;
-    }
-    .required{
-      label{
-        &:after{
-          content: "*";
-          margin: -.2em 0 0 .2em;
-          color: #db2828;
-        }
-      }
-    }
-  }
-  .list-border{
-    height: 2.8rem !important;
-    ul{
-        padding: 0 !important;
-        span{
-          font-weight: 500 !important;
-          font-size: 0.785rem;
-        }
-    }
-}
-.lib-chat-head{
-  bottom: 4rem !important;
-}
