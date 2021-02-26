@@ -18,6 +18,7 @@ export class PlayerComponent implements OnInit, OnChanges {
   @Output() public toolbarEmitter: EventEmitter<any> = new EventEmitter();
   questionId: string;
   showPlayerPreview = false;
+  showPotrait = false;
 
   constructor(private questionService: QuestionService, public telemetryService: EditorTelemetryService,
               public editorService: EditorService, private playerService: PlayerService) { }
@@ -31,7 +32,12 @@ export class PlayerComponent implements OnInit, OnChanges {
       this.initialize();
     }
   }
-
+  switchToPotraitMode() {
+    this.showPotrait = true;
+  }
+  switchToLandscapeMode() {
+    this.showPotrait = false;
+  }
   initialize() {
     this.questionId = _.get(this.questionMetaData, 'identifier');
     this.questionService.readQuestion(this.questionId).subscribe((res) => {
