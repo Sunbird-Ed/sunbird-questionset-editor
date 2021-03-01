@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnDestroy } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnDestroy, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm } from '../../interfaces/McqForm';
@@ -10,6 +10,7 @@ import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
+import { catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-question',
@@ -17,10 +18,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./question.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
+export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
-  @Input() leafFormConfig: any;
+  public leafFormConfig: any;
+  @Input() editorConfig: any;
   public childFormData: any;
   @Output() questionEmitter = new EventEmitter<any>();
   private onComponentDestroy$ = new Subject<any>();
@@ -86,7 +88,19 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
       duration: (Date.now() - this.pageStartTime) / 1000
     });
   }
+ ngOnChanges() {
+  this.editorService.getCategoryDefinition(this.editorConfig.config.primaryCategory,
+    this.editorConfig.context.channel, this.editorConfig.config.objectType).pipe(catchError(error => {
+    const errInfo = {
+      errorMsg: 'Fetching question set config details failed. Please try again...',
+    };
+    return throwError(this.editorService.apiErrorHandling(error, errInfo));
+  })).subscribe((response) => {
+    this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
+    this.populateFormData();
+  });
 
+ }
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
         this.questionSetHierarchy = response;
@@ -509,6 +523,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy {
     _.forEach(formvalue, (formFieldCategory) => {
       if (_.has(formFieldCategory, 'editable')) {
       formFieldCategory.editable = status;
+      formFieldCategory.default = this.childFormData[formFieldCategory.code];
       }
     });
     this.leafFormConfig = formvalue;

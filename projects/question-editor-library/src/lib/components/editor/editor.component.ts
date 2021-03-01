@@ -36,7 +36,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   public editorMode;
   public pageId = 'question_set';
   public rootFormConfig: any;
-  public leafFormConfig: any;
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
               public telemetryService: EditorTelemetryService, private frameworkService: FrameworkService,
@@ -73,7 +72,6 @@ export class EditorComponent implements OnInit, OnDestroy {
         return throwError(this.editorService.apiErrorHandling(error, errInfo));
       })).subscribe((response) => {
         this.rootFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.create.properties');
-        this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
       });
     });
   }
