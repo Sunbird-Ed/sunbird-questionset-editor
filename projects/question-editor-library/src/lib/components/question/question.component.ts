@@ -104,9 +104,9 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
         this.questionSetHierarchy = response;
-        const formConfigfields = _.join(_.map(this.leafFormConfig, value => (value.code)), ',');
+        const leafFormConfigfields = _.join(_.map(this.leafFormConfig, value => (value.code)), ',');
         if (!_.isUndefined(this.questionId)) {
-          this.questionService.readQuestion(this.questionId, formConfigfields)
+          this.questionService.readQuestion(this.questionId, leafFormConfigfields)
             .subscribe((res) => {
               if (res.result) {
                 this.questionMetaData = res.result.question;
