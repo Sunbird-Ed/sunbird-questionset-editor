@@ -100,12 +100,13 @@
             </div>
           </div>
           <hr>
+          <div *ngIf="leafFormConfig">
           <div class="pl-5 py-10 font-weight-bold fs-0-92">
             Question details
             </div>
-          <div class="form-container   px-30" *ngIf="leafFormConfig" >
-
+          <div class="form-container   px-30" >
             <sb-dynamic-form [config]="leafFormConfig" (initialize)="output($event)" (statusChanges)="onStatusChanges($event)" (valueChanges)="valueChanges($event)" ></sb-dynamic-form>
+          </div>
           </div>
         </div>
       </div>
