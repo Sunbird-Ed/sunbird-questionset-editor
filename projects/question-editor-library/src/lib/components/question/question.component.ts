@@ -11,7 +11,7 @@ import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
-
+import {labelMessages} from '.././labels';
 @Component({
   selector: 'lib-question',
   templateUrl: './question.component.html',
@@ -24,6 +24,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   public leafFormConfig: any;
   @Input() editorConfig: any;
   public childFormData: any;
+  public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
   private onComponentDestroy$ = new Subject<any>();
   toolbarConfig: any;

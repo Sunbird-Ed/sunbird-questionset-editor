@@ -7,6 +7,7 @@ export const labelMessages = {
         contentType: 'Content Type',
         reset: 'Reset',
         apply: 'apply',
-        filterText: 'what kind of content are you looking for?'
+        filterText: 'what kind of content are you looking for?',
+        Questiondetails: 'Question details'
     }
 };
