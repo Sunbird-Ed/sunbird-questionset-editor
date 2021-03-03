@@ -22,6 +22,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   public leafFormConfig: any;
+  public initialLeafFormConfig: any;
   @Input() editorConfig: any;
   public childFormData: any;
   public labelMessages = labelMessages;
@@ -80,7 +81,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     this.toolbarConfig.showPreview = false;
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
-    this.initialize();
+    // this.initialize();
   }
 
   ngAfterViewInit() {
@@ -98,7 +99,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     return throwError(this.editorService.apiErrorHandling(error, errInfo));
   })).subscribe((response) => {
     this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
-    this.populateFormData();
+    this.initialLeafFormConfig = this.leafFormConfig;
+    this.initialize();
   });
 
  }
@@ -523,16 +525,18 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     this.leafFormConfig = null;
     _.forEach(formvalue, (formFieldCategory) => {
       if (_.has(formFieldCategory, 'editable')) {
-      formFieldCategory.editable = status;
+      formFieldCategory.editable = status ? _.find(this.initialLeafFormConfig, {code: formFieldCategory.code}).editable : status;
       formFieldCategory.default = this.childFormData[formFieldCategory.code];
       }
     });
     this.leafFormConfig = formvalue;
   }
   populateFormData() {
+    this.childFormData = {};
     _.forEach(this.leafFormConfig, (formFieldCategory) => {
       if (this.questionMetaData && _.has(this.questionMetaData, formFieldCategory.code)) {
         formFieldCategory.default = this.questionMetaData[formFieldCategory.code];
+        this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
     });
   }
