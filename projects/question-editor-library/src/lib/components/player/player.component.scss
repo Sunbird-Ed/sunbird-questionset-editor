@@ -35,7 +35,13 @@ quml-mcq-solutions{
 }
 .potrait-mode{
     margin: auto;
-    max-width: 576px;
+    width: 480px;
+    .startpage{
+        display: block !important;
+    }
+    .sb-quml-player{
+        height: 846px;
+    }
 }
 .btn-none{
     background: none !important;
