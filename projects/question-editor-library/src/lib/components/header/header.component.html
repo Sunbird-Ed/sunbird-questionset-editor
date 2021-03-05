@@ -12,71 +12,73 @@
   </div>
 </div>
 
-<div class="d-flex flex-jc-space-between flex-ai-center p-20 ui container">
-  <div class="practical-header__title">
-    <span class="font-weight-bold fs-0-92 mr-24">
-      {{ toolbarConfig.title }}
-    </span>
-    <!-- <span>
-          <i class="tv icon sb-color-primary fs-1-143"></i>
-          <span class="fs-1-16 font-weight-normal sb-color-gray-100">|</span>
-          <i class="mobile alternate icon sb-color-primary fs-1-3 disabled"></i>
-       </span> -->
-  </div>
-  <div class="d-flex flex-ai-center" *ngIf="pageId === 'question_set' && editorService.editorMode !== 'read'">
-    <ng-container *ngIf="editorService.editorMode === 'edit'">
+<div class="sb-bg-lightBlue bb-1">
+  <div class="ui container d-flex flex-jc-space-between flex-ai-center p-20">
+    <div class="practical-header__title">
+      <span class="font-weight-bold fs-0-92 mr-24">
+        {{ toolbarConfig.title }}
+      </span>
+      <!-- <span>
+            <i class="tv icon sb-color-primary fs-1-143"></i>
+            <span class="fs-1-16 font-weight-normal sb-color-gray-100">|</span>
+            <i class="mobile alternate icon sb-color-primary fs-1-3 disabled"></i>
+        </span> -->
+    </div>
+    <div class="d-flex flex-ai-center" *ngIf="pageId === 'question_set' && editorService.editorMode !== 'read'">
+      <ng-container *ngIf="editorService.editorMode === 'edit'">
+        <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10"
+          (click)="buttonEmitter($event, {type: 'saveCollection'})" libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('save_as_draft','click','submit', telemetryService.telemetryPageId)">
+          <i *ngIf="toolbarConfig.save_collection_btn_icon" class="{{toolbarConfig.save_collection_btn_icon}}"></i>
+          {{ toolbarConfig.save_collection_btn_label}}
+        </button>
+        <button class="sb-btn sb-btn-normal sb-btn-primary" *ngIf="toolbarConfig.showSubmitBtn" (click)="buttonEmitter($event, {type: 'submitCollection'})"
+          libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('submit','click','submit', telemetryService.telemetryPageId)">
+          <i *ngIf="toolbarConfig.submit_collection_btn_icon" class="{{toolbarConfig.submit_collection_btn_icon}}"></i>
+          {{ toolbarConfig.submit_collection_btn_label}}
+        </button>
+      </ng-container>
+      <ng-container *ngIf="editorService.editorMode === 'review'">
+        <button class="sb-btn sb-btn-outline-error sb-btn-normal ripple mr-10"
+          (click)="buttonEmitter($event, {type: 'rejectCollection'})" libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('reject','click','submit', telemetryService.telemetryPageId)">
+          <i *ngIf="toolbarConfig.reject_collection_btn_icon" class="{{toolbarConfig.reject_collection_btn_icon}}"></i>
+          {{ toolbarConfig.reject_collection_btn_label}}
+        </button>
+        <button class="sb-btn sb-btn-secondary sb-btn-normal ripple"
+          (click)="buttonEmitter($event, {type: 'publishCollection'})" libTelemetryInteract
+          [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('publish','click','submit', telemetryService.telemetryPageId)">
+          <i *ngIf="toolbarConfig.publish_collection_btn_icon" class="{{toolbarConfig.publish_collection_btn_icon}}"></i>
+          {{ toolbarConfig.publish_collection_btn_label}}
+        </button>
+      </ng-container>
+    </div>
+    <div class="d-flex flex-ai-center" *ngIf="pageId === 'question'">
+      <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10" *ngIf="toolbarConfig.showPreview"
+        (click)="buttonEmitter($event, {type: 'editContent'})" libTelemetryInteract
+        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('edit','click','launch', telemetryService.telemetryPageId)">
+        <i *ngIf="toolbarConfig.edit_question_btn_icon" class="{{toolbarConfig.edit_question_btn_icon}}"></i>
+        {{ toolbarConfig.edit_question_btn_label}}
+      </button>
+      <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10" *ngIf="!toolbarConfig.showPreview"
+        (click)="buttonEmitter($event, {type: 'previewContent'})" libTelemetryInteract
+        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('preview','click','launch', telemetryService.telemetryPageId)">
+        <i *ngIf="toolbarConfig.preview_question_btn_icon" class="{{toolbarConfig.preview_question_btn_icon}}"></i>
+        {{ toolbarConfig.preview_question_btn_label}}
+      </button>
       <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10"
-        (click)="buttonEmitter($event, {type: 'saveCollection'})" libTelemetryInteract
-        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('save_as_draft','click','submit', telemetryService.telemetryPageId)">
-        <i *ngIf="toolbarConfig.save_collection_btn_icon" class="{{toolbarConfig.save_collection_btn_icon}}"></i>
-        {{ toolbarConfig.save_collection_btn_label}}
+        (click)="buttonEmitter($event, {type: 'cancelContent'})" libTelemetryInteract
+        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('cancel','click','launch', telemetryService.telemetryPageId)">
+        <i *ngIf="toolbarConfig.cancel_question_btn_icon" class="{{toolbarConfig.cancel_question_btn_icon}}"></i>
+        {{ toolbarConfig.cancel_question_btn_label}}
       </button>
-      <button class="sb-btn sb-btn-normal sb-btn-primary" *ngIf="toolbarConfig.showSubmitBtn" (click)="buttonEmitter($event, {type: 'submitCollection'})"
+      <button class="sb-btn sb-btn-normal sb-btn-primary" (click)="buttonEmitter($event, {type: 'saveContent'})"
         libTelemetryInteract
-        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('submit','click','submit', telemetryService.telemetryPageId)">
-        <i *ngIf="toolbarConfig.submit_collection_btn_icon" class="{{toolbarConfig.submit_collection_btn_icon}}"></i>
-        {{ toolbarConfig.submit_collection_btn_label}}
+        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('save','click','submit', telemetryService.telemetryPageId)">
+        <i *ngIf="toolbarConfig.save_question_btn_icon" class="{{toolbarConfig.save_question_btn_icon}}"></i>
+        {{ toolbarConfig.save_question_btn_label}}
       </button>
-    </ng-container>
-    <ng-container *ngIf="editorService.editorMode === 'review'">
-      <button class="sb-btn sb-btn-outline-error sb-btn-normal ripple mr-10"
-        (click)="buttonEmitter($event, {type: 'rejectCollection'})" libTelemetryInteract
-        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('reject','click','submit', telemetryService.telemetryPageId)">
-        <i *ngIf="toolbarConfig.reject_collection_btn_icon" class="{{toolbarConfig.reject_collection_btn_icon}}"></i>
-        {{ toolbarConfig.reject_collection_btn_label}}
-      </button>
-      <button class="sb-btn sb-btn-secondary sb-btn-normal ripple"
-        (click)="buttonEmitter($event, {type: 'publishCollection'})" libTelemetryInteract
-        [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('publish','click','submit', telemetryService.telemetryPageId)">
-        <i *ngIf="toolbarConfig.publish_collection_btn_icon" class="{{toolbarConfig.publish_collection_btn_icon}}"></i>
-        {{ toolbarConfig.publish_collection_btn_label}}
-      </button>
-    </ng-container>
-  </div>
-  <div class="d-flex flex-ai-center" *ngIf="pageId === 'question'">
-    <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10" *ngIf="toolbarConfig.showPreview"
-      (click)="buttonEmitter($event, {type: 'editContent'})" libTelemetryInteract
-      [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('edit','click','launch', telemetryService.telemetryPageId)">
-      <i *ngIf="toolbarConfig.edit_question_btn_icon" class="{{toolbarConfig.edit_question_btn_icon}}"></i>
-      {{ toolbarConfig.edit_question_btn_label}}
-    </button>
-    <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10" *ngIf="!toolbarConfig.showPreview"
-      (click)="buttonEmitter($event, {type: 'previewContent'})" libTelemetryInteract
-      [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('preview','click','launch', telemetryService.telemetryPageId)">
-      <i *ngIf="toolbarConfig.preview_question_btn_icon" class="{{toolbarConfig.preview_question_btn_icon}}"></i>
-      {{ toolbarConfig.preview_question_btn_label}}
-    </button>
-    <button class="sb-btn sb-btn-normal sb-btn-outline-primary mr-10"
-      (click)="buttonEmitter($event, {type: 'cancelContent'})" libTelemetryInteract
-      [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('cancel','click','launch', telemetryService.telemetryPageId)">
-      <i *ngIf="toolbarConfig.cancel_question_btn_icon" class="{{toolbarConfig.cancel_question_btn_icon}}"></i>
-      {{ toolbarConfig.cancel_question_btn_label}}
-    </button>
-    <button class="sb-btn sb-btn-normal sb-btn-primary" (click)="buttonEmitter($event, {type: 'saveContent'})"
-      libTelemetryInteract
-      [telemetryInteractEdata]="telemetryService.getTelemetryInteractEdata('save','click','submit', telemetryService.telemetryPageId)">
-      <i *ngIf="toolbarConfig.save_question_btn_icon" class="{{toolbarConfig.save_question_btn_icon}}"></i>
-      {{ toolbarConfig.save_question_btn_label}}
-    </button>
+    </div>
   </div>
 </div>
