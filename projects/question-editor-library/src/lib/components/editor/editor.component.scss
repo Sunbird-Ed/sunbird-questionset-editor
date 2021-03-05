@@ -43,6 +43,7 @@ body{
             border: 1px solid #d0e0f3;
             background-color: var(--primary-0);
             padding: 15px 33px;
+            border-top: none;
           }
         }
   
@@ -121,13 +122,11 @@ body{
       height: calc(100vh - 126px);
       margin: 0;
       padding: 0;
-      border-top: solid 1px var(--gray-100);
     }
   }
   .eight.bg-white{
     border-left: solid 1px var(--gray-100);
     padding-bottom: 4.5rem !important;
-    border-top: solid 1px var(--gray-100);
   }
   
   .ckeditor-tool__solution .menu {
@@ -157,6 +156,9 @@ body{
         padding-left: 2px;
         position: relative;
         top: -5px;
+    }
+    .container {
+      width: 95% !important;
     }
   }
   .footer-fix{
