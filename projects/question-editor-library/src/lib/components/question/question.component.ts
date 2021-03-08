@@ -395,6 +395,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
+    this.childFormData = _.mapValues(this.childFormData , _.method('toLowerCase'));
     metadata = _.merge(metadata, this.childFormData);
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
