@@ -527,7 +527,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
         this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
     } else {
-      formFieldCategory.default = '';
+      const formDefaultValue = _.get(_.find(this.initialLeafFormConfig, {code: formFieldCategory.code}), 'default');
+      formFieldCategory.default = formDefaultValue ? formDefaultValue : '';
     }
     });
   }
