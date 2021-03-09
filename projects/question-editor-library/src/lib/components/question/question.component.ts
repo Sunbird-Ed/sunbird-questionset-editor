@@ -18,7 +18,7 @@ import {labelMessages} from '.././labels';
   styleUrls: ['./question.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnChanges {
+export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   public leafFormConfig: any;
@@ -27,7 +27,6 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
-  private onComponentDestroy$ = new Subject<any>();
   toolbarConfig: any;
   public editorState: any = {};
   public showPreview = false;
@@ -222,9 +221,9 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
     }
   }
 
-  async saveContent() {
+   saveContent() {
     this.validateQuestionData();
-    await this.validateFormFields();
+    this.validateFormFields();
     if (this.showFormError === false) {
       this.saveQuestion();
     }
@@ -540,10 +539,6 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnDestroy, OnCh
         this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
     });
-  }
-  ngOnDestroy() {
-    this.onComponentDestroy$.next();
-    this.onComponentDestroy$.complete();
   }
 }
 
