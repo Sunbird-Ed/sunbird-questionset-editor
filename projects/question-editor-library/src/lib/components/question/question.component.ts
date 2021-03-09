@@ -510,7 +510,6 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   previewFormData(status) {
     const formvalue = _.cloneDeep(this.leafFormConfig);
     this.leafFormConfig = null;
-    console.log(this.initialLeafFormConfig, 'this.initialLeafFormConfig');
     _.forEach(formvalue, (formFieldCategory) => {
       if (_.has(formFieldCategory, 'editable')) {
       formFieldCategory.editable = status ? _.find(this.initialLeafFormConfig, {code: formFieldCategory.code}).editable : status;
