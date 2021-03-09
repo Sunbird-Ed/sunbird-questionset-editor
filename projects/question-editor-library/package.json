@@ -22,7 +22,7 @@
     "@project-sunbird/telemetry-sdk": "0.0.26",
     "ngx-infinite-scroll": "^6.0.0",
     "ng2-semantic-ui": "github:venkateshwarans/ng2-semantic-ui#sourcing-circle",
-    "common-form-elements": "^3.7.4"
+    "common-form-elements": "^3.7.6"
   },
   "dependencies": {
 
