@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild, ViewEncapsulation} from '@angular/core';
+// tslint:disable-next-line:max-line-length
+import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild, ViewEncapsulation, OnChanges} from '@angular/core';
 import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
 import { throwError } from 'rxjs';
@@ -16,7 +17,7 @@ import { FrameworkService } from '../../services/framework/framework.service';
   styleUrls: ['./editor.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class EditorComponent implements OnInit, OnDestroy {
+export class EditorComponent implements OnInit, OnDestroy, OnChanges {
   @Input() editorConfig: EditorConfig | undefined;
   @Output() editorEmitter = new EventEmitter<any>();
   @ViewChild('modal', {static: false}) private modal;
@@ -36,6 +37,8 @@ export class EditorComponent implements OnInit, OnDestroy {
   public editorMode;
   public pageId = 'question_set';
   public rootFormConfig: any;
+  public leafFormConfig: any;
+  public initialLeafFormConfig: any;
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
               public telemetryService: EditorTelemetryService, private frameworkService: FrameworkService,
@@ -72,11 +75,14 @@ export class EditorComponent implements OnInit, OnDestroy {
         return throwError(this.editorService.apiErrorHandling(error, errInfo));
       })).subscribe((response) => {
         this.rootFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.create.properties');
+        this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
+        this.initialLeafFormConfig = this.leafFormConfig;
       });
     });
   }
-
-
+  ngOnChanges() {
+    this.leafFormConfig = this.initialLeafFormConfig;
+  }
   fetchQuestionSetHierarchy() {
     return this.editorService.getQuestionSetHierarchy(this.collectionId).pipe(catchError(error => {
       const errInfo = {

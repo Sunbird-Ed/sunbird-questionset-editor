@@ -10,7 +10,6 @@ import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-import { catchError } from 'rxjs/operators';
 import {labelMessages} from '.././labels';
 @Component({
   selector: 'lib-question',
@@ -21,9 +20,8 @@ import {labelMessages} from '.././labels';
 export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
-  public leafFormConfig: any;
-  public initialLeafFormConfig: any;
-  @Input() editorConfig: any;
+  @Input() leafFormConfig: any;
+  @Input() initialLeafFormConfig: any;
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
@@ -80,7 +78,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
     this.toolbarConfig.showPreview = false;
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
-    // this.initialize();
+    this.initialize();
   }
 
   ngAfterViewInit() {
@@ -90,18 +88,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
  ngOnChanges() {
-  this.editorService.getCategoryDefinition(this.editorConfig.config.primaryCategory,
-    this.editorConfig.context.channel, this.editorConfig.config.objectType).pipe(catchError(error => {
-    const errInfo = {
-      errorMsg: 'Fetching question set config details failed. Please try again...',
-    };
-    return throwError(this.editorService.apiErrorHandling(error, errInfo));
-  })).subscribe((response) => {
-    this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
-    this.initialLeafFormConfig = this.leafFormConfig;
-    this.initialize();
-  });
-
+  this.populateFormData();
  }
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
@@ -534,10 +521,14 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   populateFormData() {
     this.childFormData = {};
     _.forEach(this.leafFormConfig, (formFieldCategory) => {
+      if (!_.isUndefined(this.questionId)) {
       if (this.questionMetaData && _.has(this.questionMetaData, formFieldCategory.code)) {
         formFieldCategory.default = this.questionMetaData[formFieldCategory.code];
         this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
+    } else {
+      formFieldCategory.default = '';
+    }
     });
   }
 }
