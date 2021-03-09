@@ -37,7 +37,6 @@ export class EditorComponent implements OnInit, OnDestroy {
   public pageId = 'question_set';
   public rootFormConfig: any;
   public leafFormConfig: any;
-  public initialLeafFormConfig: any;
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
               public telemetryService: EditorTelemetryService, private frameworkService: FrameworkService,
