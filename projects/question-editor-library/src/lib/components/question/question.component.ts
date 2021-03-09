@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   @Input() leafFormConfig: any;
-  @Input() initialLeafFormConfig: any;
+  initialLeafFormConfig: any;
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
@@ -67,6 +67,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
       const { primaryCategory } = this.editorService.selectedChildren;
       this.questionPrimaryCategory = primaryCategory;
       this.pageStartTime = Date.now();
+      this.initialLeafFormConfig = Object.assign({}, this.leafFormConfig) ;
    }
 
   ngOnInit() {
