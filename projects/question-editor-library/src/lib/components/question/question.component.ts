@@ -8,7 +8,7 @@ import { PlayerService } from '../../services/player/player.service';
 import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
-import { throwError, Subject } from 'rxjs';
+import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
 import { catchError } from 'rxjs/operators';
 import {labelMessages} from '.././labels';
