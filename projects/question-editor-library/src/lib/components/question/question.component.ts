@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   @Input() leafFormConfig: any;
-  initialLeafFormConfig: any;
+  @Input() initialLeafFormConfig: any;
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
@@ -67,7 +67,6 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
       const { primaryCategory } = this.editorService.selectedChildren;
       this.questionPrimaryCategory = primaryCategory;
       this.pageStartTime = Date.now();
-      this.initialLeafFormConfig = Object.assign({}, this.leafFormConfig) ;
    }
 
   ngOnInit() {
@@ -511,6 +510,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   previewFormData(status) {
     const formvalue = _.cloneDeep(this.leafFormConfig);
     this.leafFormConfig = null;
+    console.log(this.initialLeafFormConfig, 'this.initialLeafFormConfig');
     _.forEach(formvalue, (formFieldCategory) => {
       if (_.has(formFieldCategory, 'editable')) {
       formFieldCategory.editable = status ? _.find(this.initialLeafFormConfig, {code: formFieldCategory.code}).editable : status;
