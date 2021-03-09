@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   @Input() leafFormConfig: any;
-  @Input() initialLeafFormConfig: any;
+  public initialLeafFormConfig: any;
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
@@ -78,6 +78,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
     this.toolbarConfig.showPreview = false;
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
+    this.initialLeafFormConfig = _.cloneDeep(this.leafFormConfig);
     this.initialize();
   }
 

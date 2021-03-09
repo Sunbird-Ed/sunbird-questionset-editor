@@ -109,7 +109,7 @@
   </ng-container>
 
   <ng-container *ngSwitchCase="'question'">
-    <lib-question [questionInput]="questionComponentInput" [leafFormConfig]="leafFormConfig" [initialLeafFormConfig]="initialLeafFormConfig"  (questionEmitter)="questionEventListener($event)">
+    <lib-question [questionInput]="questionComponentInput" [leafFormConfig]="leafFormConfig"   (questionEmitter)="questionEventListener($event)">
     </lib-question>
   </ng-container> 
 </ng-container>
