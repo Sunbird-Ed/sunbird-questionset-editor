@@ -1,3 +1,4 @@
+// tslint:disable-next-line:max-line-length
 import { Component, OnInit, Input, OnDestroy, HostListener, Output, EventEmitter, ViewChild, ViewEncapsulation} from '@angular/core';
 import { EditorConfig } from '../../question-editor-library-interface';
 import { catchError, map, tap } from 'rxjs/operators';
@@ -36,6 +37,7 @@ export class EditorComponent implements OnInit, OnDestroy {
   public editorMode;
   public pageId = 'question_set';
   public rootFormConfig: any;
+  public leafFormConfig: any;
 
   constructor(private editorService: EditorService, private treeService: TreeService, private helperService: HelperService,
               public telemetryService: EditorTelemetryService, private frameworkService: FrameworkService,
@@ -72,10 +74,10 @@ export class EditorComponent implements OnInit, OnDestroy {
         return throwError(this.editorService.apiErrorHandling(error, errInfo));
       })).subscribe((response) => {
         this.rootFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.create.properties');
+        this.leafFormConfig = _.get(response, 'result.objectCategoryDefinition.forms.childMetadata.properties');
       });
     });
   }
-
 
   fetchQuestionSetHierarchy() {
     return this.editorService.getQuestionSetHierarchy(this.collectionId).pipe(catchError(error => {

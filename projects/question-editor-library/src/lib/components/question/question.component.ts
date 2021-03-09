@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnChanges } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm } from '../../interfaces/McqForm';
@@ -10,16 +10,20 @@ import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
 import { throwError } from 'rxjs';
 import { Router } from '@angular/router';
-
+import {labelMessages} from '.././labels';
 @Component({
   selector: 'lib-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionComponent implements OnInit, AfterViewInit {
+export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
+  @Input() leafFormConfig: any;
+  public initialLeafFormConfig: any;
+  public childFormData: any;
+  public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
   toolbarConfig: any;
   public editorState: any = {};
@@ -74,6 +78,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     this.toolbarConfig.showPreview = false;
     this.solutionUUID = UUID.UUID();
     this.telemetryService.telemetryPageId = this.pageId;
+    this.initialLeafFormConfig = _.cloneDeep(this.leafFormConfig);
     this.initialize();
   }
 
@@ -83,15 +88,19 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       duration: (Date.now() - this.pageStartTime) / 1000
     });
   }
-
+ ngOnChanges() {
+  this.populateFormData();
+ }
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
         this.questionSetHierarchy = response;
+        const leafFormConfigfields = _.join(_.map(this.leafFormConfig, value => (value.code)), ',');
         if (!_.isUndefined(this.questionId)) {
-          this.questionService.readQuestion(this.questionId)
+          this.questionService.readQuestion(this.questionId, leafFormConfigfields)
             .subscribe((res) => {
               if (res.result) {
                 this.questionMetaData = res.result.question;
+                this.populateFormData();
                 if (_.isUndefined(this.questionPrimaryCategory)) {
                   this.questionPrimaryCategory = this.questionMetaData.primaryCategory;
                 }
@@ -179,8 +188,10 @@ export class QuestionComponent implements OnInit, AfterViewInit {
         break;
       case 'previewContent':
         this.previewContent();
+        this.previewFormData(false);
         break;
         case 'editContent':
+          this.previewFormData(true);
           this.showPreview = false;
           this.toolbarConfig.showPreview = false;
           this.showLoader = false;
@@ -198,8 +209,9 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     }
   }
 
-  saveContent() {
+   saveContent() {
     this.validateQuestionData();
+    this.validateFormFields();
     if (this.showFormError === false) {
       this.saveQuestion();
     }
@@ -370,6 +382,8 @@ export class QuestionComponent implements OnInit, AfterViewInit {
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
+    this.childFormData = _.mapValues(this.childFormData , _.method('toLowerCase'));
+    metadata = _.merge(metadata, this.childFormData);
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
 
@@ -476,7 +490,48 @@ export class QuestionComponent implements OnInit, AfterViewInit {
     }
     this.toolbarConfig.title = questionTitle;
   }
+  output(event) {}
 
+  onStatusChanges(event) {
+  }
+
+  valueChanges(event) {
+    this.childFormData = event;
+  }
+  validateFormFields() {
+    _.forEach(this.leafFormConfig, (formFieldCategory) => {
+      if (formFieldCategory.required && !this.childFormData[formFieldCategory.code]) {
+          this.showFormError = true;
+          this.toasterService.error('Please fill the required fields');
+          return false;
+      }
+    });
+    return true;
+  }
+  previewFormData(status) {
+    const formvalue = _.cloneDeep(this.leafFormConfig);
+    this.leafFormConfig = null;
+    _.forEach(formvalue, (formFieldCategory) => {
+      if (_.has(formFieldCategory, 'editable')) {
+      formFieldCategory.editable = status ? _.find(this.initialLeafFormConfig, {code: formFieldCategory.code}).editable : status;
+      formFieldCategory.default = this.childFormData[formFieldCategory.code];
+      }
+    });
+    this.leafFormConfig = formvalue;
+  }
+  populateFormData() {
+    this.childFormData = {};
+    _.forEach(this.leafFormConfig, (formFieldCategory) => {
+      if (!_.isUndefined(this.questionId)) {
+      if (this.questionMetaData && _.has(this.questionMetaData, formFieldCategory.code)) {
+        formFieldCategory.default = this.questionMetaData[formFieldCategory.code];
+        this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
+      }
+    } else {
+      const formDefaultValue = _.get(_.find(this.initialLeafFormConfig, {code: formFieldCategory.code}), 'default');
+      formFieldCategory.default = formDefaultValue ? formDefaultValue : '';
+    }
+    });
+  }
 }
-
 

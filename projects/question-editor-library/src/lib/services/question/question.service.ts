@@ -15,12 +15,14 @@ export class QuestionService {
     this.http = http;
   }
 
-  readQuestion(questionId) {
+  readQuestion(questionId, leafFormConfigfields? ) {
+    // tslint:disable-next-line:max-line-length
+    let field = 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media,';
+    field = leafFormConfigfields ? field + leafFormConfigfields :  field;
     const option = {
       url: `question/v1/read/${questionId}`,
       param: {
-        // tslint:disable-next-line:max-line-length
-        fields: 'body,primaryCategory,mimeType,qType,answer,templateId,responseDeclaration,interactionTypes,interactions,name,solutions,editorState,media'
+        fields: field
       }
     };
     return this.publicDataService.get(option);
