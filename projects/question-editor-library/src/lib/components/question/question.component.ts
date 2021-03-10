@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEncapsulation, OnChanges, OnDestroy } from '@angular/core';
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm } from '../../interfaces/McqForm';
@@ -8,16 +8,18 @@ import { PlayerService } from '../../services/player/player.service';
 import { EditorTelemetryService } from '../../services/editor-telemetry/editor-telemetry.service';
 import { EditorService } from '../../services/editor/editor.service';
 import { ToasterService } from '../../services/toaster/toaster.service';
-import { throwError } from 'rxjs';
+import { throwError, Subject } from 'rxjs';
 import { Router } from '@angular/router';
 import {labelMessages} from '.././labels';
+import { FrameworkService } from '../../services/framework/framework.service';
+import { filter, take, takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'lib-question',
   templateUrl: './question.component.html',
   styleUrls: ['./question.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
+export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDestroy {
   QumlPlayerConfig: any = {};
   @Input() questionInput: any;
   @Input() leafFormConfig: any;
@@ -25,6 +27,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   public childFormData: any;
   public labelMessages = labelMessages;
   @Output() questionEmitter = new EventEmitter<any>();
+  private onComponentDestroy$ = new Subject<any>();
   toolbarConfig: any;
   public editorState: any = {};
   public showPreview = false;
@@ -60,10 +63,12 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
   questionPrimaryCategory: string;
   pageId = 'question';
   pageStartTime: any;
-
+  public framework;
+  public frameworkDetails: any = {};
   constructor(
     private questionService: QuestionService, private editorService: EditorService, public telemetryService: EditorTelemetryService,
-    public playerService: PlayerService, private toasterService: ToasterService, private router: Router ) {
+    public playerService: PlayerService, private toasterService: ToasterService,
+    private frameworkService: FrameworkService, private router: Router ) {
       const { primaryCategory } = this.editorService.selectedChildren;
       this.questionPrimaryCategory = primaryCategory;
       this.pageStartTime = Date.now();
@@ -80,8 +85,30 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
     this.telemetryService.telemetryPageId = this.pageId;
     this.initialLeafFormConfig = _.cloneDeep(this.leafFormConfig);
     this.initialize();
+    this.framework = _.get(this.editorService.editorConfig, 'context.framework');
+    this.fetchFrameWorkDetails().subscribe((frameworkDetails: any) => {
+      if (frameworkDetails && !frameworkDetails.err) {
+        const frameworkData = frameworkDetails.frameworkdata[this.framework].categories;
+        this.frameworkDetails.frameworkData = frameworkData;
+        this.frameworkDetails.topicList = _.get(_.find(frameworkData, { code: 'topic' }), 'terms');
+      }
+    });
+    this.populateFrameworkData();
   }
-
+  fetchFrameWorkDetails() {
+    return this.frameworkService.frameworkData$.pipe(takeUntil(this.onComponentDestroy$),
+    filter(data => _.get(data, `frameworkdata.${this.framework}`)), take(1));
+  }
+  populateFrameworkData() {
+    const categoryMasterList = this.frameworkDetails.frameworkData;
+    _.forEach(categoryMasterList, (category) => {
+      _.forEach(this.leafFormConfig, (formFieldCategory) => {
+        if (category.code === formFieldCategory.code) {
+          formFieldCategory.terms = category.terms;
+        }
+      });
+    });
+  }
   ngAfterViewInit() {
     this.telemetryService.impression({
       type: 'edit', pageid: this.telemetryService.telemetryPageId, uri: this.router.url,
@@ -89,7 +116,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
     });
   }
  ngOnChanges() {
-  this.populateFormData();
+  // this.populateFormData();
  }
   initialize() {
     this.editorService.getQuestionSetHierarchy(this.questionSetId).subscribe((response) => {
@@ -156,6 +183,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
             });
         }
         if (_.isUndefined(this.questionId)) {
+          this.populateFormData();
           const hierarchyChildNodes = this.questionSetHierarchy.childNodes ? this.questionSetHierarchy.childNodes : [];
           this.setQuestionTitle(hierarchyChildNodes);
           if (this.questionInteractionType === 'default') {
@@ -382,7 +410,6 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
-    this.childFormData = _.mapValues(this.childFormData , _.method('toLowerCase'));
     metadata = _.merge(metadata, this.childFormData);
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
@@ -528,10 +555,14 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges {
         this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
     } else {
-      const formDefaultValue = _.get(_.find(this.initialLeafFormConfig, {code: formFieldCategory.code}), 'default');
+      const formDefaultValue = _.get(this.questionSetHierarchy, formFieldCategory.code);
       formFieldCategory.default = formDefaultValue ? formDefaultValue : '';
     }
     });
+  }
+  ngOnDestroy() {
+    this.onComponentDestroy$.next();
+    this.onComponentDestroy$.complete();
   }
 }
 
