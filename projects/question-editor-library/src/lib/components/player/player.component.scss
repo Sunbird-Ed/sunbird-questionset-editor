@@ -42,6 +42,15 @@ quml-mcq-solutions{
     .sb-quml-player{
         height: 846px;
     }
+    .carousel-inner{
+        padding-left: 30px !important;
+    }
+    .quml-option-card {
+        .option-border{
+            width: 23rem !important;
+            margin-top: 10px;
+        }
+    }
 }
 .btn-none{
     background: none !important;
