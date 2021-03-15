@@ -5,7 +5,7 @@ export const Config = {
       name: 'Vaibahv Bhuva',
       orgIds: ['01307938306521497658']
     },
-    identifier: 'do_1132125506761932801130',
+    identifier: 'do_1132367732636631041264',
     authToken: ' ',
     sid: 'iYO2K6dOSdA0rwq7NeT1TDzS-dbqduvV',
     did: '7e85b4967aebd6704ba1f604f20056b6',
@@ -71,7 +71,7 @@ export const Config = {
     medium: ['English'],
     gradeLevel: ['Class 1'],
     subject: ['Environmental Studies'],
-    topic: ['Hello'],
+    topic: ['Forest'], // getting validation error with old value
     additionalCategories: [
       {
         value: 'Classroom Teaching Video',

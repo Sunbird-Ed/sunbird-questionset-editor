@@ -412,6 +412,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
+    console.log(metadata, 'metadata');
     metadata = _.merge(metadata, _.pickBy(this.childFormData));
     metadata = _.merge(metadata, _.pickBy(this.sessionContext));
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
@@ -552,18 +553,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   populateFormData() {
     this.childFormData = {};
     this.sessionContext = {
-      board: _.get(this.questionSetHierarchy, 'board'),
-      medium: _.get(this.questionSetHierarchy, 'medium'),
-      gradeLevel: _.get(this.questionSetHierarchy, 'gradeLevel'),
-      subject: _.get(this.questionSetHierarchy, 'subject'),
-      topic: _.get(this.questionSetHierarchy, 'topic'),
-      author: _.get(this.questionSetHierarchy, 'author'),
-      channel: _.get(this.questionSetHierarchy, 'channel'),
-      framework: _.get(this.questionSetHierarchy, 'framework'),
-      copyright: _.get(this.questionSetHierarchy, 'copyright'),
-      license: _.get(this.questionSetHierarchy, 'license'),
-      attributions: _.get(this.questionSetHierarchy, 'attributions'),
-      audience: _.get(this.questionSetHierarchy, 'audience')
+      ..._.pick(this.questionSetHierarchy, ['board', 'medium', 'gradeLevel', 'subject',
+       'topic', 'author', 'channel', 'framework', 'copyright', 'attributions', 'audience',  'license' ])
     };
     _.forEach(this.leafFormConfig, (formFieldCategory) => {
       if (!_.isUndefined(this.questionId)) {
