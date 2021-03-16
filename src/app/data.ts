@@ -71,7 +71,7 @@ export const Config = {
     medium: ['English'],
     gradeLevel: ['Class 1'],
     subject: ['Environmental Studies'],
-    topic: ['Hello'],
+    topic: ['Forest'], // getting validation error with old value
     additionalCategories: [
       {
         value: 'Classroom Teaching Video',

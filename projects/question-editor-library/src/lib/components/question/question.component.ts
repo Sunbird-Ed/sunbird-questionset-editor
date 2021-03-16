@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, AfterViewInit, ViewEnca
 import * as _ from 'lodash-es';
 import { UUID } from 'angular2-uuid';
 import { McqForm } from '../../interfaces/McqForm';
+import { SessionContext } from '../../interfaces/SessionContext';
 import { ServerResponse } from '../../interfaces/serverResponse';
 import { QuestionService } from '../../services/question/question.service';
 import { PlayerService } from '../../services/player/player.service';
@@ -65,6 +66,7 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   pageStartTime: any;
   public framework;
   public frameworkDetails: any = {};
+  public sessionContext: SessionContext;
   constructor(
     private questionService: QuestionService, private editorService: EditorService, public telemetryService: EditorTelemetryService,
     public playerService: PlayerService, private toasterService: ToasterService,
@@ -410,7 +412,8 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
       metadata.solutions = [];
     }
     metadata = _.merge(metadata, this.getDefaultFrameworkValues());
-    metadata = _.merge(metadata, this.childFormData);
+    metadata = _.merge(metadata, _.pickBy(this.childFormData));
+    metadata = _.merge(metadata, _.pickBy(this.sessionContext));
     return _.omit(metadata, ['question', 'numberOfOptions', 'options']);
   }
 
@@ -548,6 +551,10 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
   }
   populateFormData() {
     this.childFormData = {};
+    this.sessionContext = {
+      ..._.pick(this.questionSetHierarchy, ['board', 'medium', 'gradeLevel', 'subject',
+       'topic', 'author', 'channel', 'framework', 'copyright', 'attributions', 'audience',  'license' ])
+    };
     _.forEach(this.leafFormConfig, (formFieldCategory) => {
       if (!_.isUndefined(this.questionId)) {
       if (this.questionMetaData && _.has(this.questionMetaData, formFieldCategory.code)) {
@@ -555,9 +562,11 @@ export class QuestionComponent implements OnInit, AfterViewInit, OnChanges, OnDe
         this.childFormData[formFieldCategory.code] = this.questionMetaData[formFieldCategory.code];
       }
     } else {
-      const formDefaultValue = _.get(this.questionSetHierarchy, formFieldCategory.code);
-      formFieldCategory.default = formDefaultValue ? formDefaultValue : '';
-      this.childFormData[formFieldCategory.code] = formDefaultValue;
+      // tslint:disable-next-line:max-line-length
+      const questionSetDefaultValue = _.get(this.questionSetHierarchy, formFieldCategory.code) ? _.get(this.questionSetHierarchy, formFieldCategory.code) : '';
+      const defaultEditStatus = _.find(this.initialLeafFormConfig, {code: formFieldCategory.code}).editable === true ? true : false;
+      formFieldCategory.default = defaultEditStatus ? '' : questionSetDefaultValue ;
+      this.childFormData[formFieldCategory.code] = formFieldCategory.default;
     }
     });
   }
